@@ -91,7 +91,7 @@ export default {
 
         if (this.form.picker == "customer") {
           axios
-            .post("http://localhost:3000/user/login", {
+            .post("http://localhost:3000/login/login", {
               UserName: this.form.username,
               UserPassword: this.form.password,
             })
