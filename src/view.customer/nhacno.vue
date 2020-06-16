@@ -1,5 +1,12 @@
 <template>
-  <Header/>
+  <div class="Nhacno">
+      <Header/>
+      <div class="row">
+          <div class="col-sm-6">
+              <h1>Nhacno</h1>
+          </div>
+      </div>
+  </div>
 </template>
 
 <script>
@@ -17,5 +24,10 @@ export default {
 </script>
 
 <style>
-
+.Nhacno{
+    width: 100%;
+}
+.row{
+    width: 100%;
+}
 </style>

@@ -2,9 +2,12 @@
   <div>
     <Header />
     <div class="container">
-      <h1 class="text-center mt-2">Đăng Nhập</h1>
+      <h1 class="text-center mt-4">Đăng Nhập</h1>
       <div class="row myform">
         <form @submit="onLogin" class="col-sm-6 offset-3 p-2">
+          <h6 class="checkempty mb-2" v-if="checkIsEmpty">
+            Invalid!
+          </h6>
           <div class="form-group">
             <label for="exampleInputEmail1">UserName</label>
             <input
@@ -48,9 +51,6 @@
               />Customer
             </label>
           </div>
-          <p class="checkempty" v-if="checkIsEmpty">
-            Invalid!
-          </p>
           <hr />
           <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary ">Đăng nhập</button>
@@ -70,6 +70,11 @@ export default {
   name: "login",
   components: {
     Header,
+  },
+  mounted(){
+    if(localStorage.getItem("myaccesstoken")){
+      this.$router.push('/');
+    }
   },
   data() {
     return {

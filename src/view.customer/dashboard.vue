@@ -38,10 +38,20 @@ export default {
   },
   methods: {
     GotoView: function() {
-      myToken.CheckToken(router, "/customer/nhacno");
+      var x = myToken.RefreshMyToken();
+      if(x){
+        this.$router.push('/customer/nhacno');
+      } else {
+        localStorage.clear();
+        this.$router.push('/login');
+      }
     },
   },
 };
 </script>
 
-<style></style>
+<style>
+.row{
+  width: 100%;
+}
+</style>
