@@ -32,11 +32,6 @@
                 Sign in
               </router-link>
             </b-dropdown-item>
-            <b-dropdown-item href="#">
-              <router-link to="/register">
-                Sign up
-              </router-link>
-            </b-dropdown-item>
           </b-nav-item-dropdown>
 
           <b-nav-item-dropdown v-if="Islogin" right>

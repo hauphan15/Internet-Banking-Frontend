@@ -1,6 +1,5 @@
 <template>
   <div class="register">
-    <Header></Header>
     <b-container>
       <div class="form">
         <b-form @submit="onRegister">
@@ -10,11 +9,13 @@
           </b-form-group>
 
           <b-form-group label="Mật khẩu:">
-            <b-form-input v-model="form.password" required> </b-form-input>
+            <b-form-input v-model="form.password" required type="password"> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Xác nhận mật khẩu:">
-            <b-form-input required> </b-form-input>
+            <b-form-input required  v-model="form.confirmpw" @input="notifyChange" type="password"> </b-form-input>
+            <small v-if="!isMatch">Mật khẩu không khớp</small>
+            <small v-else>Mật khẩu khớp</small>
           </b-form-group>
 
           <b-form-group label="Họ tên">
@@ -35,45 +36,37 @@
         </b-form>
       </div>
     </b-container>
-    <Footer ></Footer>
   </div>
 </template>
 
 <script>
-import Header from "../components/Header.vue";
-import Footer from "../components/Footer.vue";
 import axios from "axios";
 
 export default {
-  name: "register",
-  components: {
-    Header,
-    Footer,
-  },
   data() {
     return {
       form: {
         username: "",
         password: "",
+        confirmpw:"",
         fullname: "",
         phone: "",
-        email: "",
+        email: ""
       },
+      isMatch: false,
     };
   },
   methods: {
     onRegister(evt) {
       evt.preventDefault();
-      const body = {
-        UserName: this.form.username,
-        UserPassword: this.form.password,
-        FullName: this.form.fullname,
-        UserPhone: this.form.phone,
-        UserEmail: this.form.email,
-      };
+
       axios
         .post("http://localhost:3000/employee/create-acc", {
-          body,
+                UserName: this.form.username,
+                UserPassword: this.form.password,
+                FullName: this.form.fullname,
+                UserEmail: this.form.email,
+                UserPhone: this.form.phone
         })
         .then(function(response) {
           console.log(response.data);
@@ -82,6 +75,16 @@ export default {
           console.log(error);
         });
     },
+    notifyChange(){
+        console.log(this.form.confirmpw);
+        if(this.form.confirmpw === this.form.password){
+            this.isMatch = true;
+        }
+        else{
+            this.isMatch = false;
+        }
+    }
+
   },
 };
 </script>
