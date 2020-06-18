@@ -10,8 +10,16 @@ const routes = [{
         component: Home
     },
     {
+        path: '/admin',
+        name: 'admin',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "admin" */ '../views/Admin/Home.vue'),
+    },
+    {
         path: '/employee',
         name: 'employee',
+        meta: { requiresAuth: true },
         component: () =>
             import ( /* webpackChunkName: "employee" */ '../views/Employee/Home.vue'),
     },
@@ -37,6 +45,21 @@ const routes = [{
 
 const router = new VueRouter({
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!localStorage.access_token) {
+            next({
+                path: '/login',
+                query: { retUrl: to.fullPath }
+            })
+        } else {
+            next()
+        }
+    } else {
+        next() // make sure to always call next()!
+    }
 })
 
 export default router

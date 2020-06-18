@@ -1,15 +1,15 @@
 <template>
   <div>
-    <Header />
+    <Header></Header>
     <div class="container">
       <h1 class="text-center mt-4">Đăng Nhập</h1>
       <div class="row myform">
         <form @submit="onLogin" class="col-sm-6 offset-3 p-2">
-          <h6 class="checkempty mb-2" v-if="checkIsEmpty">
-            Invalid!
+          <h6 class="checkempty mb-2" v-if="!correctUnPw">
+            Sai username hoặc password
           </h6>
           <div class="form-group">
-            <label for="exampleInputEmail1">UserName</label>
+            <label for="exampleInputEmail1">Tên đăng nhập</label>
             <input
               type="text"
               class="form-control"
@@ -20,7 +20,7 @@
             />
           </div>
           <div class="form-group">
-            <label for="exampleInputPassword1">Password</label>
+            <label for="exampleInputPassword1">Mật khẩu</label>
             <input
               type="password"
               class="form-control"
@@ -37,7 +37,7 @@
                 name="optradio"
                 value="admin"
                 v-model="form.picker"
-              />Admin
+              />Quản trị viên
             </label>
           </div>
           <div class="form-check">
@@ -48,7 +48,18 @@
                 name="optradio"
                 value="customer"
                 v-model="form.picker"
-              />Customer
+              />Khách hàng
+            </label>
+          </div>
+          <div class="form-check">
+            <label class="form-check-label">
+              <input
+                type="radio"
+                class="form-check-input"
+                name="optradio"
+                value="employee"
+                v-model="form.picker"
+              />Nhân viên
             </label>
           </div>
           <hr />
@@ -58,71 +69,53 @@
         </form>
       </div>
     </div>
+    <Footer></Footer>
   </div>
 </template>
 
 <script>
 import Header from "../components/Header.vue";
-import axios from "axios";
-import router from "../router/index";
+import Footer from '../components/Footer.vue';
+import { mapGetters } from 'vuex';
 
 export default {
   name: "login",
   components: {
     Header,
+    Footer
   },
-  mounted(){
-    if(localStorage.getItem("myaccesstoken")){
-      this.$router.push('/');
-    }
+  computed:{
+    ...mapGetters(['correctUnPw'])
   },
   data() {
     return {
       form: {
         username: "",
         password: "",
-        picker: "customer",
-      },
-      checkIsEmpty: false,
+        picker: "",
+      }
     };
   },
   methods: {
-    onLogin(event) {
+    onLogin(event){
       event.preventDefault();
-      if (this.form.username == "" || this.form.password == "") {
-        this.checkIsEmpty = true;
-      } else {
-        this.checkIsEmpty = false;
-
-        if (this.form.picker == "customer") {
-          axios
-            .post("http://localhost:3000/login/login", {
-              UserName: this.form.username,
-              UserPassword: this.form.password,
-            })
-            .then((response) => {
-              let self = this;
-              if (response.data.authenticated) {
-                localStorage.myaccesstoken = response.data.accessToken;
-                localStorage.myrefreshtoken = response.data.refreshToken;
-                localStorage.myID = response.data.UserID;
-                localStorage.fullname = response.data.FullName;
-                return router.push("/customer/dashboard");
-              } else {
-                self.checkIsEmpty = true;
-              }
-            })
-            .catch(function(error) {
-              console.log(error);
-            });
-        }
-      }
-    },
+      const data={
+        UserName: this.form.username,
+        UserPassword: this.form.password,
+        role: this.form.picker
+      };
+      this.$store.dispatch('login', data);
+      this.$router.push(`/${this.form.picker}`);
+    }
   },
 };
 </script>
 
 <style>
+.container{
+  width: 500px;
+}
+
 .myform {
   margin-top: 50px;
 }

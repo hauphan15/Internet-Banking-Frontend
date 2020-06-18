@@ -30,6 +30,10 @@
             <b-form-input v-model="form.email" required> </b-form-input>
           </b-form-group>
 
+        <b-form-group label="Ngày sinh:">
+            <b-form-datepicker v-model="form.dob" class="mb-2"></b-form-datepicker>
+          </b-form-group>
+    
           <b-button id="btn" type="submit" variant="primary"
             >Đăng ký tài khoản</b-button
           >
@@ -50,26 +54,27 @@ export default {
         confirmpw:"",
         fullname: "",
         phone: "",
-        email: ""
+        email: "",
+        dob:""
       },
       isMatch: false,
     };
   },
   methods: {
     onRegister(evt) {
-      evt.preventDefault();
-       const customer = {
+        evt.preventDefault();
+
+        const employee = {
           UserName: this.form.username,
           UserPassword: this.form.password,
           FullName: this.form.fullname,
           Phone: this.form.phone,
           Email: this.form.email,
+          DoB: this.form.dob
         };
-      this.$store.dispatch('addCustomer', customer);
+        this.$store.dispatch('addEmployee', employee);
     },
-
     notifyChange(){
-       
         if(this.form.confirmpw === this.form.password){
             this.isMatch = true;
         }

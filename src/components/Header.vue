@@ -22,26 +22,26 @@
             >
           </b-nav-form>
 
-          <b-nav-item-dropdown v-if="!Islogin" right>
+          <b-nav-item-dropdown v-if="!isLogin" right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
               <em>Account</em>
             </template>
-            <b-dropdown-item href="#">
+            <b-dropdown-item>
               <router-link to="/login">
-                Sign in
+                Login
               </router-link>
             </b-dropdown-item>
           </b-nav-item-dropdown>
 
-          <b-nav-item-dropdown v-if="Islogin" right>
+          <b-nav-item-dropdown v-if="isLogin" right>
             <!-- Using 'button-content' slot -->
             <template v-slot:button-content>
-              <em>{{User}}</em>
+              <em>{{FullName}}</em>
             </template>
-            <b-dropdown-item href="#">Profile</b-dropdown-item>
-            <b-dropdown-item href="#">Sign Out</b-dropdown-item>
+            <b-dropdown-item @click="onLogout">Logout</b-dropdown-item>
           </b-nav-item-dropdown>
+
         </b-navbar-nav>
       </b-collapse>
     </b-navbar>
@@ -49,17 +49,27 @@
 </template>
 
 <script>
+
+
 export default {
   data() {
-    return{
-      Islogin: false,
-      User: "abc"
+    return {
+      isLogin: false,
+      FullName: localStorage.getItem('full_name')
     }
   },
   mounted() {
-    if(localStorage.getItem("myaccesstoken")){
-      this.Islogin = true;
-      this.User = localStorage.getItem("fullname");
+    var self = this;
+    if(localStorage.getItem('access_token'))
+    {
+      self.isLogin = true;
+    }
+  },
+  methods:{
+    onLogout(){
+      this.$store.dispatch('logout');
+      this.$router.push('/login');
+      this.isLogin = false;
     }
   }
 };
