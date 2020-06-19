@@ -24,23 +24,18 @@ const routes = [{
             import ( /* webpackChunkName: "employee" */ '../views/Employee/Home.vue'),
     },
     {
+        path: '/customer',
+        name: 'customer',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "customer" */ '../views/Customer/Home.vue'),
+    },
+    {
         path: '/login',
         name: 'Login',
         component: () =>
             import ( /* webpackChunkName: "login" */ '../views/Login.vue')
     },
-    {
-        path: '/customer/dashboard',
-        name: 'Dashboard',
-        component: () =>
-            import ( /* webpackChunkName: "Dashboard" */ '../view.customer/dashboard.vue')
-    },
-    {
-        path: '/customer/nhacno',
-        name: 'NhacNo',
-        component: () =>
-            import ( /* webpackChunkName: "NhacNo" */ '../view.customer/nhacno.vue')
-    }
 ]
 
 const router = new VueRouter({

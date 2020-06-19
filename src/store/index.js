@@ -2,6 +2,7 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import axios from 'axios'
 
+
 Vue.use(Vuex)
 
 export default new Vuex.Store({
@@ -10,7 +11,7 @@ export default new Vuex.Store({
         accessToken: '',
         refreshToken: '',
         fullName: '',
-        user: {},
+        UserID: 0,
         TakeTrans: [],
         SendTrans: [],
         DebtTrans: [],
@@ -18,22 +19,22 @@ export default new Vuex.Store({
         CustomerList: [],
         PartnerTrans: [],
         PartnerTransByTime: [],
-        PartnerTransByName: []
+        PartnerTransByName: [],
+        PartnerStatisticMoney: 0,
+        SavingAcc: [],
+        SpendingAcc: [],
+        TakerList: []
     },
     getters: {
-        //lấy full name
         GetFullName(state) {
             return state.fullName;
         },
-        //giao dịch nhân tiền
         TakeTransTable(state) {
             return state.TakeTrans;
         },
-        //giao dịch gửi tiền
         SendTransTable(state) {
             return state.SendTrans;
         },
-        //giao dịch nhắc nợ
         DebtTransTable(state) {
             return state.DebtTrans;
         },
@@ -54,14 +55,26 @@ export default new Vuex.Store({
         },
         PartnerTransByName(state) {
             return state.PartnerTransByName;
+        },
+        PartnerStatisticMoney(state) {
+            return state.PartnerStatisticMoney;
+        },
+        SavingAcc(state) {
+            return state.SavingAcc;
+        },
+        SpendingAcc(state) {
+            return state.SpendingAcc;
+        },
+        TakerList(state) {
+            return state.TakerList;
         }
     },
     mutations: {
-        LOGIN(state, payload) {
+        LOGIN(state) {
             state.accessToken = localStorage.getItem('access_token');
             state.refreshToken = localStorage.getItem('refresh_token');
             state.fullName = localStorage.getItem('full_name');
-            state.user = payload;
+            state.UserID = localStorage.getItem('userid');
         },
 
         LOGOUT(state) {
@@ -112,22 +125,41 @@ export default new Vuex.Store({
             state.PartnerTransByTime = payload;
         },
 
+        PARTNER_STATISTIC_MONEY(state, payload) {
+            state.PartnerStatisticMoney = payload;
+        },
 
+        //Customer
+        SAVING_ACC(state, payload) {
+            state.SavingAcc = payload;
+        },
+        SPENDING_ACC(state, payload) {
+            state.SpendingAcc = payload;
+        },
+        TAKER_LIST(state, payload) {
+            state.TakerList = payload;
+        },
+        ADD_TAKER(state, payload) {
+            state.TakerList = [
+                ...state.TakerList,
+                payload
+            ];
+        },
+        REMOVE_TAKER(state, payload) {
+            state.TakerList = payload;
+        },
 
-
-
-
+        //OTHER
         CUSTOMER_LIST(state, payload) {
             state.CustomerList = payload;
         },
-
         CORRECT_USERNAME_PW(state, payload) {
             state.correctUnPw = payload;
         }
 
     },
     actions: {
-        //login
+        //LOGIN
         async login(ctx, loginInfo) {
             var role;
             if (loginInfo.role === 'employee') {
@@ -145,7 +177,8 @@ export default new Vuex.Store({
                 localStorage.setItem('access_token', response.data.accessToken);
                 localStorage.setItem('refresh_token', response.data.refreshToken);
                 localStorage.setItem('full_name', response.data.user.FullName);
-                ctx.commit('LOGIN', response.data.user);
+                localStorage.setItem('userid', response.data.user.UserID);
+                ctx.commit('LOGIN');
             } else if (response.data.authenticated === false) {
                 ctx.commit('CORRECT_USERNAME_PW', false);
             }
@@ -158,6 +191,7 @@ export default new Vuex.Store({
             localStorage.setItem('full_name', '');
             ctx.commit('LOGOUT');
         },
+
         //EMPLOYEE
         //tạo tk khách
         async addCustomer(ctx, customer) {
@@ -213,6 +247,39 @@ export default new Vuex.Store({
         async partnerTransByName(ctx, name) {
             const response = await axios.post('http://localhost:3000/admin/partner/by-name', { PartnerBank: name });
             ctx.commit('PARTNER_TRANS_NAME', response.data);
+        },
+        //tổng số tiền đã giao dịch với đối tác chỉ định cụ thể
+        async partnerStatisticMoney(ctx, name) {
+            const response = await axios.post('http://localhost:3000/admin/partner/statistic-money', { PartnerBank: name });
+            ctx.commit('PARTNER_STATISTIC_MONEY', response.data);
+        },
+
+
+        //CUSTOMER
+        //liệt kê tài khoản thanh toán
+        async spendingAcc(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/account/spending', { UserID: id });
+            ctx.commit('SPENDING_ACC', response.data);
+        },
+        //liệt kê tài khoản tiết kiệm
+        async savingAcc(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/account/saving', { UserID: id });
+            ctx.commit('SAVING_ACC', response.data);
+        },
+        //liệt kê danh sách người nhận
+        async takerList(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/takerlist', { UserID: id });
+            ctx.commit('TAKER_LIST', response.data);
+        },
+        //thêm người nhận
+        async addTaker(ctx, info) {
+            const response = await axios.post('http://localhost:3000/customer/takerlist/add', info);
+            ctx.commit('ADD_TAKER', response.data);
+        },
+        //xóa người nhận
+        async removeTaker(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/takerlist/delete', { ID: id });
+            ctx.commit('REMOVE_TAKER', response.data);
         },
     },
     modules: {}

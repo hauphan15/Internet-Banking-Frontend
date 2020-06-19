@@ -23,13 +23,28 @@
         <br>
 
         <h6>Xem theo tên đối tác</h6> 
-        <div>
-            <b-form-group>
-                <b-form-select v-model="bank" :options="options"></b-form-select>
-            </b-form-group>
+        
+        <b-form-group>
+            <b-form-select v-model="bank" :options="options"></b-form-select>
+        </b-form-group>
         <b-button variant="primary" @click="onLoad2">Xem</b-button>
         <Table :items="PartnerTransByName"></Table>
-  </div>
+
+        <br>
+        <br>
+
+        <h6>Tổng số tiền đã giao dịch với đối tác</h6> 
+        <b-form-group>
+            <b-form-select v-model="bank" :options="options"></b-form-select>
+        </b-form-group>
+
+        <b-form-group>
+        <b-button variant="primary" @click="onLoad3">Xem</b-button>
+        </b-form-group>
+
+        <b-form-group>
+            <b-form-input readonly :value="PartnerStatisticMoney"></b-form-input>
+        </b-form-group>
     </div>
 </template>
 
@@ -60,7 +75,8 @@ export default {
         ...mapGetters([
             'PartnerTrans',
             'PartnerTransByTime',
-            'PartnerTransByName'
+            'PartnerTransByName',
+            'PartnerStatisticMoney'
             ])
     },
     methods:{
@@ -72,6 +88,9 @@ export default {
         },
         onLoad2(){
             this.$store.dispatch('partnerTransByName',this.bank);
+        },
+        onLoad3(){
+            this.$store.dispatch('partnerStatisticMoney',this.bank);
         }
     }
 }
