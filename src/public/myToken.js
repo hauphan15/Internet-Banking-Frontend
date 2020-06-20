@@ -23,7 +23,7 @@ const CheckToken = async function(callback) {
     },
   };
   axios
-    .get("http://localhost:3000/customer/nhacno", config)
+    .get("http://localhost:3000/customer-debtor/", config)
     .then((response) => {
       callback(response.data);
     })
@@ -33,26 +33,20 @@ const CheckToken = async function(callback) {
 }
 
 module.exports = {
-  RefreshMyToken: () => {
+
+  RefreshMyToken: (router) => {
     CheckToken(function(data) {
       if(data.message) {
         RefreshToken(function(data) {
           if(data.result == true) {
             localStorage.setItem("myaccesstoken", data.accessToken);
-            localStorage.isrefreshtoken = true;  
           }
           else {
-            localStorage.isrefreshtoken = false; 
+            localStorage.clear();
+            router.push('/login');
           }
         });
-      } else {
-        localStorage.isrefreshtoken = true; 
-      }
+      } 
     });
-
-    var result = localStorage.getItem("isrefreshtoken");
-    localStorage.removeItem("isrefreshtoken");
-    return result;
-
-  }
+  },
 };
