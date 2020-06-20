@@ -10,20 +10,23 @@ const routes = [{
         component: Home
     },
     {
-        path: '/register',
-        name: 'Register',
+        path: '/admin',
+        name: 'admin',
+        meta: { requiresAuth: true },
         component: () =>
-            import ( /* webpackChunkName: "register" */ '../views/Register.vue')
+            import ( /* webpackChunkName: "admin" */ '../views/Admin/Home.vue'),
     },
     {
-        path: '/login',
-        name: 'Login',
+        path: '/employee',
+        name: 'employee',
+        meta: { requiresAuth: true },
         component: () =>
-            import ( /* webpackChunkName: "register" */ '../views/Login.vue')
+            import ( /* webpackChunkName: "employee" */ '../views/Employee/Home.vue'),
     },
     {
-        path: '/customer/dashboard',
-        name: 'Dashboard',
+        path: '/customer',
+        name: 'customer',
+        meta: { requiresAuth: true },
         component: () =>
             import ( /* webpackChunkName: "register" */ '../views/view.customer/dashboard.vue')
     },
@@ -37,6 +40,21 @@ const routes = [{
 
 const router = new VueRouter({
     routes
+})
+
+router.beforeEach((to, from, next) => {
+    if (to.matched.some(record => record.meta.requiresAuth)) {
+        if (!localStorage.access_token) {
+            next({
+                path: '/login',
+                query: { retUrl: to.fullPath }
+            })
+        } else {
+            next()
+        }
+    } else {
+        next() // make sure to always call next()!
+    }
 })
 
 export default router

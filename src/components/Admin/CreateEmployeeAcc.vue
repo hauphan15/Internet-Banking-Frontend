@@ -1,6 +1,5 @@
 <template>
   <div class="register">
-    <Header></Header>
     <b-container>
       <div class="form">
         <b-form @submit="onRegister">
@@ -10,11 +9,13 @@
           </b-form-group>
 
           <b-form-group label="Mật khẩu:">
-            <b-form-input v-model="form.password" required> </b-form-input>
+            <b-form-input v-model="form.password" required type="password"> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Xác nhận mật khẩu:">
-            <b-form-input required> </b-form-input>
+            <b-form-input required  v-model="form.confirmpw" @input="notifyChange" type="password"> </b-form-input>
+            <small v-if="!isMatch">Mật khẩu không khớp</small>
+            <small v-else>Mật khẩu khớp</small>
           </b-form-group>
 
           <b-form-group label="Họ tên">
@@ -29,59 +30,59 @@
             <b-form-input v-model="form.email" required> </b-form-input>
           </b-form-group>
 
+        <b-form-group label="Ngày sinh:">
+            <b-form-datepicker v-model="form.dob" class="mb-2"></b-form-datepicker>
+          </b-form-group>
+    
           <b-button id="btn" type="submit" variant="primary"
             >Đăng ký tài khoản</b-button
           >
         </b-form>
       </div>
     </b-container>
-    <Footer ></Footer>
   </div>
 </template>
 
 <script>
-import Header from "../components/Header.vue";
-import Footer from "../components/Footer.vue";
-import axios from "axios";
 
 export default {
-  name: "register",
-  components: {
-    Header,
-    Footer,
-  },
   data() {
     return {
       form: {
         username: "",
         password: "",
+        confirmpw:"",
         fullname: "",
         phone: "",
         email: "",
+        dob:""
       },
+      isMatch: false,
     };
   },
   methods: {
     onRegister(evt) {
-      evt.preventDefault();
-      const body = {
-        UserName: this.form.username,
-        UserPassword: this.form.password,
-        FullName: this.form.fullname,
-        UserPhone: this.form.phone,
-        UserEmail: this.form.email,
-      };
-      axios
-        .post("http://localhost:3000/employee/create-acc", {
-          body,
-        })
-        .then(function(response) {
-          console.log(response.data);
-        })
-        .catch(function(error) {
-          console.log(error);
-        });
+        evt.preventDefault();
+
+        const employee = {
+          UserName: this.form.username,
+          UserPassword: this.form.password,
+          FullName: this.form.fullname,
+          Phone: this.form.phone,
+          Email: this.form.email,
+          DoB: this.form.dob
+        };
+        this.$store.dispatch('addEmployee', employee);
     },
+    notifyChange(){
+        if(this.form.confirmpw === this.form.password){
+            this.isMatch = true;
+        }
+        else{
+            this.isMatch = false;
+        }
+    }
+
   },
 };
 </script>
