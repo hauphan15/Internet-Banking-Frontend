@@ -12,6 +12,7 @@ export default new Vuex.Store({
         refreshToken: '',
         fullName: '',
         UserID: 0,
+        Number: '',
         TakeTrans: [],
         SendTrans: [],
         DebtTrans: [],
@@ -23,19 +24,24 @@ export default new Vuex.Store({
         PartnerStatisticMoney: 0,
         SavingAcc: [],
         SpendingAcc: [],
-        TakerList: []
+        TakerList: [],
+        CreditorList: [],
+        DebtorList: []
     },
     getters: {
         GetFullName(state) {
             return state.fullName;
         },
-        TakeTransTable(state) {
+        Number(state) {
+            return state.Number;
+        },
+        TakeTrans(state) {
             return state.TakeTrans;
         },
-        SendTransTable(state) {
+        SendTrans(state) {
             return state.SendTrans;
         },
-        DebtTransTable(state) {
+        DebtTrans(state) {
             return state.DebtTrans;
         },
         EmployeeList(state) {
@@ -67,6 +73,12 @@ export default new Vuex.Store({
         },
         TakerList(state) {
             return state.TakerList;
+        },
+        DebtorList(state) {
+            return state.DebtorList;
+        },
+        CreditorList(state) {
+            return state.CreditorList;
         }
     },
     mutations: {
@@ -75,12 +87,15 @@ export default new Vuex.Store({
             state.refreshToken = localStorage.getItem('refresh_token');
             state.fullName = localStorage.getItem('full_name');
             state.UserID = localStorage.getItem('userid');
+            state.Number = localStorage.getItem('number');
         },
 
         LOGOUT(state) {
             state.accessToken = '';
             state.refreshToken = '';
             state.fullName = '';
+            state.UserID = '';
+            state.Number = '';
         },
 
         //employee
@@ -148,6 +163,21 @@ export default new Vuex.Store({
         REMOVE_TAKER(state, payload) {
             state.TakerList = payload;
         },
+        ADD_DEBTOR(state, payload) {
+            state.DebtorList = [
+                ...state.DebtorList,
+                payload
+            ];
+        },
+        REMOVE_DEBT(state, payload) {
+            state.DebtorList = payload;
+        },
+        DEBTOR_LIST(state, payload) {
+            state.DebtorList = payload;
+        },
+        CREDITOR_LIST(state, payload) {
+            state.CreditorList = payload;
+        },
 
         //OTHER
         CUSTOMER_LIST(state, payload) {
@@ -178,6 +208,9 @@ export default new Vuex.Store({
                 localStorage.setItem('refresh_token', response.data.refreshToken);
                 localStorage.setItem('full_name', response.data.user.FullName);
                 localStorage.setItem('userid', response.data.user.UserID);
+                if (loginInfo.role === 'customer') {
+                    localStorage.setItem('number', response.data.user.Number);
+                }
                 ctx.commit('LOGIN');
             } else if (response.data.authenticated === false) {
                 ctx.commit('CORRECT_USERNAME_PW', false);
@@ -189,6 +222,8 @@ export default new Vuex.Store({
             localStorage.setItem('access_token', '');
             localStorage.setItem('refresh_token', '');
             localStorage.setItem('full_name', '');
+            localStorage.setItem('userid', '');
+            localStorage.setItem('number', '');
             ctx.commit('LOGOUT');
         },
 
@@ -280,6 +315,55 @@ export default new Vuex.Store({
         async removeTaker(ctx, id) {
             const response = await axios.post('http://localhost:3000/customer/takerlist/delete', { ID: id });
             ctx.commit('REMOVE_TAKER', response.data);
+        },
+        //thêm con nợ
+        async addDebtor(ctx, info) {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/create', info);
+            ctx.commit('ADD_DEBTOR', response.data);
+        },
+        //xóa nhắc nợ
+        async removeDebt(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/delete', { ID: id });
+            ctx.commit('REMOVE_DEBT', response.data);
+        },
+        //danh sách con nợ
+        async debtorList(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/mydebtorlist', { UserID: id });
+            ctx.commit('DEBTOR_LIST', response.data);
+        },
+        //danh sách chủ nợ
+        async creditorList(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/mycreditorlist', { UserID: id });
+            ctx.commit('CREDITOR_LIST', response.data);
+        },
+        //giao dịch nhân tiền
+        async takeTransCustomer(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/history/take', { UserID: id });
+            ctx.commit('TAKE_TRANS', response.data);
+        },
+        //giao dịch gửi tiền
+        async sendTransCustomer(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/history/send', { UserID: id });
+            ctx.commit('SEND_TRANS', response.data);
+        },
+        //giao dịch nhắc nợ
+        async debtTransCustomer(ctx, id) {
+            const response = await axios.post('http://localhost:3000/customer/history/debt', { UserID: id });
+            ctx.commit('DEBT_TRANS', response.data);
+        },
+        //chuyển tiền nội bộ
+        async sendLocal(ctx, data) {
+            const response = await axios.post('http://localhost:3000/customer/transaction', data.transaction, {
+                headers: {
+                    'x-otp-code': data.otpCode
+                }
+            });
+            console.log(response.data);
+            ctx.commit('SEND_TRANS', response.data.transInfo);
+        },
+        //gửi mã otp
+        async sendOTPCode(ctx, number) {
+            await axios.post('http://localhost:3000/customer/trans/otp', { Number: number });
         },
     },
     modules: {}

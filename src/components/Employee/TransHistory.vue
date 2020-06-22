@@ -48,9 +48,9 @@ export default {
     },
      computed: {
         ...mapGetters([
-            'TakeTransTable',
-            'SendTransTable',
-            'DebtTransTable'
+            'TakeTrans',
+            'SendTrans',
+            'DebtTrans'
             ])
  },
   }

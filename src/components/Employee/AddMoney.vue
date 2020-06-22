@@ -9,7 +9,7 @@
           </b-form-group>
 
           <b-form-group label="Số tiền cần nạp: ">
-            <b-form-input v-model="money" required> </b-form-input>
+            <b-form-input v-model="money" required type="number"> </b-form-input>
           </b-form-group>
 
           <b-button id="btn" type="submit" variant="primary">Nạp tiền</b-button>

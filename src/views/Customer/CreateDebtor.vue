@@ -8,29 +8,27 @@
         <ProfileZone/>
       </div>
       <div class="maincontent col-sm-9 shadow">
-        <CreateDebtor/>
+        <create-debtor></create-debtor>
       </div>
     </div>
+    <Footer/>
   </div>
 </template>
 
 <script>
-import Header from "../../components/Header";
-import myToken from "../../public/myToken";
-import CreateDebtor from "../../components/Customer.components/CreateDebtor";
-import SelectZone from "../../components/Customer.components/SelectZone"
-import ProfileZone from "../../components/Customer.components/ProfileZone"
+import Header from "../../components/Header"
+import myToken from "../../public/myToken"
+import CreateDebtor from "../../components/Customer/CreateDebtor.vue"
+import SelectZone from "../../components/Customer/SelectZone"
+import ProfileZone from "../../components/Customer/ProfileZone"
+import Footer from '../../components/Footer.vue'
+
 export default {
     components: {
-        Header, CreateDebtor, SelectZone, ProfileZone
+        Header, CreateDebtor, SelectZone, ProfileZone, Footer
     },
     mounted() {
         myToken.RefreshMyToken(this.$router);
-    },
-    data() {
-        return {
-
-        }
     }
 }
 </script>

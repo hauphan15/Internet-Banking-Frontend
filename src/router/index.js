@@ -10,6 +10,12 @@ const routes = [{
         component: Home
     },
     {
+        path: '/login',
+        name: 'login',
+        component: () =>
+            import ( /* webpackChunkName: "login" */ '../views/Login.vue'),
+    },
+    {
         path: '/admin',
         name: 'admin',
         meta: { requiresAuth: true },
@@ -28,13 +34,49 @@ const routes = [{
         name: 'customer',
         meta: { requiresAuth: true },
         component: () =>
-            import ( /* webpackChunkName: "register" */ '../views/view.customer/dashboard.vue')
+            import ( /* webpackChunkName: "customer" */ '../views/Customer/Home.vue')
     },
     {
-        path: '/customer/debtor',
-        name: 'NhacNo',
+        path: '/customer/accountlist',
+        name: 'accountlist',
+        meta: { requiresAuth: true },
         component: () =>
-            import ( /* webpackChunkName: "register" */ '../views/view.customer/nhacno.vue')
+            import ( /* webpackChunkName: "accountlist" */ '../views/Customer/AccountList.vue')
+    },
+    {
+        path: '/customer/takerlist',
+        name: 'takerlist',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "takerlist" */ '../views/Customer/TakerList.vue')
+    },
+    {
+        path: '/customer/createdebtor',
+        name: 'createdebtor',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "createdebtor" */ '../views/Customer/CreateDebtor.vue')
+    },
+    {
+        path: '/customer/debtlist',
+        name: 'debtlist',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "debtlist" */ '../views/Customer/DebtList.vue')
+    },
+    {
+        path: '/customer/transaction-history',
+        name: 'history',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "history" */ '../views/Customer/TransactionHistory.vue')
+    },
+    {
+        path: '/customer/local-transaction',
+        name: 'local',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "local" */ '../views/Customer/LocalTransaction.vue')
     }
 ]
 

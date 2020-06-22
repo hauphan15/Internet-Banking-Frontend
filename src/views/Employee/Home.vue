@@ -2,21 +2,21 @@
   <div class="home">
     <Header/>
     <div>
-        <div>
-            <b-card no-body>
-                <b-tabs card>
-                    <b-tab title="Tạo tài khoản khách hàng" active>
-                        <create-customer-acc></create-customer-acc>
-                    </b-tab>
-                    <b-tab title="Nạp tiền vào tài khoản khách hàng">
-                        <add-money></add-money>
-                    </b-tab>
-                    <b-tab title="Xem lịch sử giao dịch khách hàng">
-                        <trans-history></trans-history>
-                    </b-tab>
-                </b-tabs>
-            </b-card>
-        </div>
+  
+        <b-card no-body>
+            <b-tabs card>
+                <b-tab title="Tạo tài khoản khách hàng" active>
+                    <create-customer-acc></create-customer-acc>
+                </b-tab>
+                <b-tab title="Nạp tiền vào tài khoản khách hàng">
+                    <add-money></add-money>
+                </b-tab>
+                <b-tab title="Xem lịch sử giao dịch khách hàng">
+                    <trans-history></trans-history>
+                </b-tab>
+            </b-tabs>
+        </b-card>
+        
     </div>
     <Footer class="footer"/>
   </div>

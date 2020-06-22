@@ -1,7 +1,7 @@
 <template>
   <div>
     <Header></Header>
-    <div class="container">
+    <div class="container" v-if="!progress">
       <h1 class="text-center mt-4">Đăng Nhập</h1>
       <div class="row myform">
         <form @submit="onLogin" class="col-sm-6 offset-3 p-2">
@@ -105,13 +105,22 @@ export default {
         role: this.form.picker
       };
       this.$store.dispatch('login', data);
-      this.$router.push(`/${this.form.picker}`);
+      
+      setTimeout(() => { 
+        this.$router.push(`/${this.form.picker}`); 
+        }, 3000);
+      
     }
   },
 };
 </script>
 
 <style>
+.progres-bar{
+  margin: 200px auto;
+  width: 400px;
+}
+
 .container{
   width: 500px;
 }
