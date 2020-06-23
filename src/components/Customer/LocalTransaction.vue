@@ -56,8 +56,9 @@ export default {
       number:'',
       money:'',
       content:'',
-      type:'',
+      type:null,
       options:[
+          { value: null, text: 'Chọn hình thức trả phí' },
           { value: 'NG', text: 'Người gửi trả phí' },
           { value: 'NN', text: 'Người nhận trả phí' },
       ],

@@ -4,19 +4,18 @@
         <div class="form">
         <b-form @submit="onAdd">
 
-          <b-form-group label="Số tài khoản:">
-            <b-form-input v-model="number" type="text" required>
-            </b-form-input>
-          </b-form-group>
+            <b-form-group label="Số tài khoản:">
+                <b-form-input v-model="number" type="text" required>
+                </b-form-input>
+            </b-form-group>
 
-          <b-form-group label="Tên gợi nhớ:">
-            <b-form-input v-model="name"> </b-form-input>
-          </b-form-group>
+            <b-form-group label="Tên gợi nhớ:">
+                <b-form-input v-model="name"> </b-form-input>
+            </b-form-group>
     
-          <b-button id="btn" type="submit" variant="primary">Thêm</b-button
-          >
+            <b-button id="btn" type="submit" variant="primary">Thêm</b-button>
         </b-form>
-      </div>
+        </div>
         <h6>Danh sách người nhận</h6>
         <Table :items="TakerList"></Table>
 

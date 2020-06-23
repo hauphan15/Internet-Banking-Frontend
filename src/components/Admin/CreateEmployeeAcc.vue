@@ -23,15 +23,15 @@
           </b-form-group>
 
           <b-form-group label="Số điện thoại">
-            <b-form-input v-model="form.phone" required> </b-form-input>
+              <b-form-input v-model="form.phone" required> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Email:">
-            <b-form-input v-model="form.email" required> </b-form-input>
+              <b-form-input v-model="form.email" required> </b-form-input>
           </b-form-group>
 
-        <b-form-group label="Ngày sinh:">
-            <b-form-datepicker v-model="form.dob" class="mb-2"></b-form-datepicker>
+          <b-form-group label="Ngày sinh:">
+              <b-form-datepicker v-model="form.dob" class="mb-2"></b-form-datepicker>
           </b-form-group>
     
           <b-button id="btn" type="submit" variant="primary"

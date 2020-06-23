@@ -129,7 +129,10 @@ export default new Vuex.Store({
                 payload
             ];
         },
-
+        DELETE_EMPLOYEE(state, payload) {
+            const index = state.EmployeeList.findIndex(employee => employee.ID === payload);
+            state.EmployeeList.splice(index, 1);
+        },
         PARTNER_TRANS(state, payload) {
             state.PartnerTrans = payload;
         },
@@ -161,6 +164,9 @@ export default new Vuex.Store({
             ];
         },
         REMOVE_TAKER(state, payload) {
+            state.TakerList = payload;
+        },
+        UPDATE_TAKER(state, payload) {
             state.TakerList = payload;
         },
         ADD_DEBTOR(state, payload) {
@@ -230,62 +236,138 @@ export default new Vuex.Store({
         //EMPLOYEE
         //tạo tk khách
         async addCustomer(ctx, customer) {
-            const response = await axios.post('http://localhost:3000/employee/create-acc', customer);
+            const response = await axios.post('http://localhost:3000/employee/create-acc', customer, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             customer.ID = response.data.UserAcc;
             ctx.commit('ADD_CUSTOMER', customer);
         },
+        //tạo tk tiết kiệm
+        async addSavingAcc(ctx, username) {
+            await axios.post('http://localhost:3000/employee/create-savingacc', { UserName: username }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+        },
+        //nạp tiền vào tài khoản thanh toán
+        async addMoneySpendingAcc(ctx, data) {
+            await axios.post('http://localhost:3000/employee/addmoney-spendingacc', data, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+        },
+        //nạp tiền vào tài khoản tiết kiệm
+        async addMoneySavingAcc(ctx, data) {
+            await axios.post('http://localhost:3000/employee/addmoney-savingacc', data, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+        },
         //giao dịch nhân tiền
         async takeTrans(ctx, number) {
-            const response = await axios.post('http://localhost:3000/employee/history/take', { Number: number });
+            const response = await axios.post('http://localhost:3000/employee/history/take', { Number: number }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('TAKE_TRANS', response.data);
         },
         //giao dịch gửi tiền
         async sendTrans(ctx, number) {
-            const response = await axios.post('http://localhost:3000/employee/history/send', { Number: number });
+            const response = await axios.post('http://localhost:3000/employee/history/send', { Number: number }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('SEND_TRANS', response.data);
         },
         //giao dịch nhắc nợ
         async debtTrans(ctx, number) {
-            const response = await axios.post('http://localhost:3000/employee/history/debt', { Number: number });
+            const response = await axios.post('http://localhost:3000/employee/history/debt', { Number: number }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('DEBT_TRANS', response.data);
         },
 
         //ADMIN
         //toàn bộ nhân viên
         async employeeList(ctx) {
-            const response = await axios.get('http://localhost:3000/admin/employee-list');
+            const response = await axios.get('http://localhost:3000/admin/employee-list', {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('EMPLOYEE_LIST', response.data);
         },
         //thêm nhân viên
         async addEmployee(ctx, employee) {
-            const response = await axios.post('http://localhost:3000/admin/add-employee', employee);
+            const response = await axios.post('http://localhost:3000/admin/add-employee', employee, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             employee.ID = response.data.ID;
             employee.UserPassword = response.data.UserPassword;
             ctx.commit('ADD_EMPLOYEE', employee);
         },
         //xóa nhân viên
         async deleteEmployee(ctx, id) {
-            const response = await axios.post('http://localhost:3000/admin/delete-employee', { ID: id });
-            ctx.commit('EMPLOYEE_LIST', response.data);
+            await axios.post('http://localhost:3000/admin/delete-employee', { ID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+            ctx.commit('DELETE_EMPLOYEE', id);
+        },
+        //cập nhật thông tin nhân viên
+        async updateEmployee(ctx, info) {
+            await axios.post('http://localhost:3000/admin/update-employee', info, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
         },
         //giao dịch với tất cả đối tác
         async partnerTrans(ctx) {
-            const response = await axios.get('http://localhost:3000/admin/partner/all');
+            const response = await axios.get('http://localhost:3000/admin/partner/all', {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('PARTNER_TRANS', response.data);
         },
         //giao dịch trong khoảng thời gian
         async partnerTransByTime(ctx, time) {
-            const response = await axios.post('http://localhost:3000/admin/partner/by-time', time);
+            const response = await axios.post('http://localhost:3000/admin/partner/by-time', time, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('PARTNER_TRANS_TIME', response.data);
         },
         //giao dịch với đối tác chỉ định cụ thể
         async partnerTransByName(ctx, name) {
-            const response = await axios.post('http://localhost:3000/admin/partner/by-name', { PartnerBank: name });
+            const response = await axios.post('http://localhost:3000/admin/partner/by-name', { PartnerBank: name }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('PARTNER_TRANS_NAME', response.data);
         },
         //tổng số tiền đã giao dịch với đối tác chỉ định cụ thể
         async partnerStatisticMoney(ctx, name) {
-            const response = await axios.post('http://localhost:3000/admin/partner/statistic-money', { PartnerBank: name });
+            const response = await axios.post('http://localhost:3000/admin/partner/statistic-money', { PartnerBank: name }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('PARTNER_STATISTIC_MONEY', response.data);
         },
 
@@ -293,62 +375,119 @@ export default new Vuex.Store({
         //CUSTOMER
         //liệt kê tài khoản thanh toán
         async spendingAcc(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/account/spending', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/account/spending', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('SPENDING_ACC', response.data);
         },
         //liệt kê tài khoản tiết kiệm
         async savingAcc(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/account/saving', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/account/saving', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('SAVING_ACC', response.data);
         },
         //liệt kê danh sách người nhận
         async takerList(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/takerlist', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/takerlist', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('TAKER_LIST', response.data);
         },
         //thêm người nhận
         async addTaker(ctx, info) {
-            const response = await axios.post('http://localhost:3000/customer/takerlist/add', info);
+            const response = await axios.post('http://localhost:3000/customer/takerlist/add', info, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('ADD_TAKER', response.data);
         },
-        //xóa người nhận
+        //xóa người nhận - chưa làm
         async removeTaker(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/takerlist/delete', { ID: id });
+            const response = await axios.post('http://localhost:3000/customer/takerlist/delete', { ID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('REMOVE_TAKER', response.data);
+        },
+        //chỉnh sửa thông tin người nhận - chưa làm
+        async updateTaker(ctx, info) {
+            const response = await axios.post('http://localhost:3000/customer/takerlist/update', info, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+            ctx.commit('UPDATE', response.data);
         },
         //thêm con nợ
         async addDebtor(ctx, info) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/create', info);
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/create', info, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('ADD_DEBTOR', response.data);
         },
-        //xóa nhắc nợ
+        //xóa nhắc nợ - chưa làm
         async removeDebt(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/delete', { ID: id });
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/delete', { ID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('REMOVE_DEBT', response.data);
         },
         //danh sách con nợ
         async debtorList(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/mydebtorlist', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/mydebtorlist', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('DEBTOR_LIST', response.data);
         },
         //danh sách chủ nợ
         async creditorList(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/mycreditorlist', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/mycreditorlist', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('CREDITOR_LIST', response.data);
         },
         //giao dịch nhân tiền
         async takeTransCustomer(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/history/take', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/history/take', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('TAKE_TRANS', response.data);
         },
         //giao dịch gửi tiền
         async sendTransCustomer(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/history/send', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/history/send', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('SEND_TRANS', response.data);
         },
         //giao dịch nhắc nợ
         async debtTransCustomer(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/history/debt', { UserID: id });
+            const response = await axios.post('http://localhost:3000/customer/history/debt', { UserID: id }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
             ctx.commit('DEBT_TRANS', response.data);
         },
         //chuyển tiền nội bộ
@@ -358,12 +497,51 @@ export default new Vuex.Store({
                     'x-otp-code': data.otpCode
                 }
             });
-            console.log(response.data);
             ctx.commit('SEND_TRANS', response.data.transInfo);
         },
         //gửi mã otp
         async sendOTPCode(ctx, number) {
-            await axios.post('http://localhost:3000/customer/trans/otp', { Number: number });
+            await axios.post('http://localhost:3000/customer/trans/otp', { Number: number }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+        },
+        //chuyển tiền liên ngân hàng - PGP
+        async sendInterPGP(ctx, data) {
+            const response = await axios.post('http://localhost:3000/partner-pgp/add-money', data.transaction, {
+                headers: {
+                    'x-otp-code': data.otpCode,
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+            ctx.commit('SEND_TRANS', response.data.transInfo);
+        },
+        //gửi mã otp
+        async sendOTPCodePGP(ctx, number) {
+            await axios.post('http://localhost:3000/partner-pgp/otp', { Number: number }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+        },
+        //chuyển tiền liên ngân hàng - RSA
+        async sendInterRSA(ctx, data) {
+            const response = await axios.post('http://localhost:3000/partner-rsa/add-money', data.transaction, {
+                headers: {
+                    'x-otp-code': data.otpCode,
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+            ctx.commit('SEND_TRANS', response.data.transInfo);
+        },
+        //gửi mã otp
+        async sendOTPCodeRSA(ctx, number) {
+            await axios.post('http://localhost:3000/partner-rsa/otp', { Number: number }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
         },
     },
     modules: {}

@@ -1,5 +1,6 @@
 <template>
     <div class="add-money">
+    
     <b-container>
       <div class="form">
         <b-form @submit="onAddMoney">
@@ -12,6 +13,11 @@
             <b-form-input v-model="money" required type="number"> </b-form-input>
           </b-form-group>
 
+
+          <b-form-group>
+            <b-form-select v-model="account" :options="accounts"></b-form-select>
+          </b-form-group>
+
           <b-button id="btn" type="submit" variant="primary">Nạp tiền</b-button>
         </b-form>
       </div>
@@ -20,30 +26,34 @@
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
     data() {
         return {
             number:'',
-            money:''
+            money:'',
+            account: null,
+            accounts:[
+              {value: null, text: 'chọn loại tài khoản'},
+              {value: 'spending', text: 'tài khoản thanh toán'},
+              {value: 'saving', text: 'tài khoản tiết kiệm'},
+            ]
         }
     },
     methods:{
         onAddMoney(evt){
             evt.preventDefault();
-
-            axios
-            .post("http://localhost:3000/employee/addmoney", {
-                Number: this.number,
-                Money: this.money
-            })
-            .then(function(response) {
-            console.log(response.data);
-            })
-            .catch(function(error) {
-            console.log(error);
-            });
+            const data ={
+              Number: this.number,
+              Money: this.money
+            };
+            if(this.account ==='spending'){
+              this.$store.dispatch('addMoneySpendingAcc', data);
+            }
+            else if(this.account === 'saving'){
+              this.$store.dispatch('addMoneySavingAcc', data);
+            }
+            this.number = '';
+            this.money = '';
         }
     }
 }

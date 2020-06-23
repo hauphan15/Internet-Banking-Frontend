@@ -17,7 +17,6 @@
 
 <script>
 import Header from "../../components/Header"
-import myToken from "../../public/myToken"
 import SelectZone from "../../components/Customer/SelectZone"
 import ProfileZone from "../../components/Customer/ProfileZone"
 import AccountList from '../../components/Customer/AccountList.vue'
@@ -30,9 +29,6 @@ export default {
         ProfileZone,
         AccountList,
         Footer
-    },
-    mounted() {
-        myToken.RefreshMyToken(this.$router);
     }
 }
 </script>

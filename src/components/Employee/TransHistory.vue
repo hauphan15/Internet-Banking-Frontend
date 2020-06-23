@@ -15,13 +15,13 @@
       </div>
     </b-container>
     <h6>Nhận tiền</h6>
-    <Table :items="TakeTransTable"></Table>
+    <Table :items="TakeTrans"></Table>
     <br>
     <h6>Chuyển tiền</h6>
-    <Table :items="SendTransTable"></Table>
+    <Table :items="SendTrans"></Table>
     <br>
     <h6>Nhắc nợ</h6>
-    <Table :items="DebtTransTable"></Table>
+    <Table :items="DebtTrans"></Table>
   </div>
 </template>
 

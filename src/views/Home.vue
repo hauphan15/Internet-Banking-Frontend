@@ -1,6 +1,15 @@
 <template>
   <div class="home">
     <Header/>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
+    <h1>WELCOME TO HHBANK</h1>
     <Footer class="footer"/>
   </div>
 </template>

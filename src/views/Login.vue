@@ -64,7 +64,7 @@
           </div>
           <hr />
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn btn-primary ">Đăng nhập</button>
+            <button type="submit" class="btn lg btn-primary ">Đăng nhập</button>
           </div>
         </form>
       </div>
@@ -116,11 +116,6 @@ export default {
 </script>
 
 <style>
-.progres-bar{
-  margin: 200px auto;
-  width: 400px;
-}
-
 .container{
   width: 500px;
 }

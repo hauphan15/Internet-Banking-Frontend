@@ -17,7 +17,6 @@
 
 <script>
 import Header from "../../components/Header";
-import myToken from "../../public/myToken";
 import LocalTransaction from "../../components/Customer/LocalTransaction.vue";
 import SelectZone from "../../components/Customer/SelectZone"
 import ProfileZone from "../../components/Customer/ProfileZone"
@@ -26,14 +25,6 @@ import Footer from '../../components/Footer.vue'
 export default {
     components: {
         Header, LocalTransaction, SelectZone, ProfileZone,Footer
-    },
-    mounted() {
-        myToken.RefreshMyToken(this.$router);
-    },
-    data() {
-        return {
-
-        }
     }
 }
 </script>

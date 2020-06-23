@@ -8,9 +8,15 @@
                 <b-tab title="Tạo tài khoản khách hàng" active>
                     <create-customer-acc></create-customer-acc>
                 </b-tab>
+
+                <b-tab title="Tạo tài khoản tiết kiệm">
+                    <create-saving-acc></create-saving-acc>
+                </b-tab>
+
                 <b-tab title="Nạp tiền vào tài khoản khách hàng">
                     <add-money></add-money>
                 </b-tab>
+
                 <b-tab title="Xem lịch sử giao dịch khách hàng">
                     <trans-history></trans-history>
                 </b-tab>
@@ -29,12 +35,14 @@ import Footer from '../../components/Footer.vue'
 import CreateCustomerAcc from '../../components/Employee/CreateCustomerAcc.vue'
 import AddMoney from '../../components/Employee/AddMoney.vue'
 import TransHistory from '../../components/Employee/TransHistory.vue'
+import CreateSavingAcc from '../../components/Employee/CreateSavingAcc.vue'
 
 export default {
   name: 'Home',
   components: {
     Header,
     CreateCustomerAcc,
+    CreateSavingAcc,
     AddMoney,
     TransHistory,
     Footer

@@ -77,6 +77,13 @@ const routes = [{
         meta: { requiresAuth: true },
         component: () =>
             import ( /* webpackChunkName: "local" */ '../views/Customer/LocalTransaction.vue')
+    },
+    {
+        path: '/customer/inter-transaction',
+        name: 'inter',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "inter" */ '../views/Customer/InterTransaction.vue')
     }
 ]
 
