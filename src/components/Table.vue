@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-table hover :items="items" :key="items.ID" selectable  @row-selected="onRowSelected" :select-mode="single">
+    <b-table hover :items="items" :key="items.ID" selectable  @row-selected="onRowSelected">
     </b-table>
   </div>
 </template>

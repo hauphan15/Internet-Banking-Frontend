@@ -28,12 +28,11 @@ export default new Vuex.Store({
         TakerList: [],
         CreditorList: [],
         DebtorList: [],
-        SelectedRow: []
+        SelectedRow: [],
+        SpendingNumber: '',
+        SavingNumber: '',
     },
     getters: {
-        isExpiredToken(state) {
-            return state.isExpiredToken;
-        },
         isSucceed(state) {
             return state.isSucceed
         },
@@ -90,6 +89,12 @@ export default new Vuex.Store({
         },
         SelectedRow(state) {
             return state.SelectedRow;
+        },
+        SpendingNumber(state) {
+            return state.SpendingNumber;
+        },
+        SavingNumber(state) {
+            return state.SavingNumber;
         }
     },
     mutations: {
@@ -117,7 +122,6 @@ export default new Vuex.Store({
                 payload
             ];
         },
-
         TAKE_TRANS(state, payload) {
             state.TakeTrans = payload;
         },
@@ -128,6 +132,12 @@ export default new Vuex.Store({
 
         DEBT_TRANS(state, payload) {
             state.DebtTrans = payload;
+        },
+        SPENDING_NUMBER(state, payload) {
+            state.SpendingNumber = payload;
+        },
+        SAVING_NUMBER(state, payload) {
+            state.SavingNumber = payload;
         },
 
         //admin
@@ -259,12 +269,12 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            customer.ID = response.data.UserAcc;
-            ctx.commit('ADD_CUSTOMER', customer);
-
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                customer.ID = response.data.UserAcc;
+                ctx.commit('ADD_CUSTOMER', customer);
+                ctx.commit('SPENDING_NUMBER', response.data.Number);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
@@ -279,6 +289,7 @@ export default new Vuex.Store({
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('SAVING_NUMBER', response.data.Number);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
@@ -290,7 +301,6 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
             } else {
@@ -381,7 +391,6 @@ export default new Vuex.Store({
                 }
             });
             employee.ID = response.data.ID;
-            employee.UserPassword = response.data.UserPassword;
             ctx.commit('ADD_EMPLOYEE', employee);
 
 
@@ -685,10 +694,10 @@ export default new Vuex.Store({
                     'x-otp-code': data.otpCode
                 }
             });
-            ctx.commit('SEND_TRANS', response.data.transInfo);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('SEND_TRANS', response.data.transInfo);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
@@ -715,10 +724,10 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('SEND_TRANS', response.data.transInfo);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('SEND_TRANS', response.data.transInfo);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
@@ -745,10 +754,10 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('SEND_TRANS', response.data.transInfo);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('SEND_TRANS', response.data.transInfo);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }

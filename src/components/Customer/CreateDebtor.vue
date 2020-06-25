@@ -1,6 +1,6 @@
 <template>
   <div class="p-2">
-      <h1 class="text-center mt-2">Tạo nhắc nợ</h1>
+      <h3 class="text-center mt-2">Tạo nhắc nợ</h3>
     <form class="form" @submit="onAdd">
       <div class="form-group">
         <label for="stk">Số tài khoản:</label>

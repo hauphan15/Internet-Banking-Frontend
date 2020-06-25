@@ -3,6 +3,11 @@
     <b-container>
       <div class="form">
         <b-form @submit="onRegister">
+          <b-form-group>
+              <b-alert v-if="isSucceed && isRegister" variant="success" show>Tạo tài khoản thành công</b-alert>
+              <b-alert v-if="!isSucceed && isRegister" variant="danger" show>Tạo tài khoản thất bại</b-alert>
+          </b-form-group>
+
           <b-form-group label="Tên đăng nhập:">
             <b-form-input v-model="form.username" type="text" required>
             </b-form-input>
@@ -23,7 +28,7 @@
           </b-form-group>
 
           <b-form-group label="Số điện thoại">
-              <b-form-input v-model="form.phone" required> </b-form-input>
+              <b-form-input v-model="form.phone" type="number" required> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Email:">
@@ -31,12 +36,10 @@
           </b-form-group>
 
           <b-form-group label="Ngày sinh:">
-              <b-form-datepicker v-model="form.dob" class="mb-2"></b-form-datepicker>
+              <b-form-datepicker v-model="form.dob" placeholder="Ngày sinh" class="mb-2"></b-form-datepicker>
           </b-form-group>
     
-          <b-button id="btn" type="submit" variant="primary"
-            >Đăng ký tài khoản</b-button
-          >
+          <b-button id="btn" type="submit" variant="primary">Đăng ký tài khoản</b-button>
         </b-form>
       </div>
     </b-container>
@@ -44,6 +47,7 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 
 export default {
   data() {
@@ -58,7 +62,13 @@ export default {
         dob:""
       },
       isMatch: false,
+      isRegister: false,
     };
+  },
+  computed:{
+      ...mapGetters([
+        'isSucceed', 
+        ])
   },
   methods: {
     onRegister(evt) {
@@ -73,6 +83,13 @@ export default {
           DoB: this.form.dob
         };
         this.$store.dispatch('addEmployee', employee);
+        setTimeout(()=>{
+                this.isRegister = true;
+        }, 3000);
+
+        setTimeout(()=>{
+                this.isRegister = false;
+        }, 6000);
     },
     notifyChange(){
         if(this.form.confirmpw === this.form.password){

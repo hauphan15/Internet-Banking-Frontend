@@ -1,7 +1,12 @@
 <template>
   <div class="p-2">
-    <h1 class="text-center mt-2">Chuyển tiền liền ngân hàng</h1>
+    <h3 class="text-center mt-2">Chuyển tiền liền ngân hàng</h3>
     <form class="form">
+        <b-form-group>
+            <b-alert v-if="isSucceed && isVerify" variant="success" show>Giao dịch thành công</b-alert>
+            <b-alert v-if="!isSucceed && isVerify" variant="danger" show>Giao dịch thất bại</b-alert>
+        </b-form-group>
+
         <div class="form-group" >
             <label for="stk">Số tài khoản người nhận:</label>
             <input type="text" class="form-control" placeholder="STK" v-model="number"/>
@@ -45,61 +50,74 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 
 export default {
-  data() {
-    return {
-        number:'',
-        money:'',
-        content:'',
-        type: null,
-        options:[
-            { value: null, text: 'Chọn hình thức trả phí' },
-            { value: 'NG', text: 'Người gửi trả phí' },
-            { value: 'NN', text: 'Người nhận trả phí' },
-        ],
-        bank:null,
-        banks:[
-            { value: null, text: 'Chọn ngân hàng' },
-            { value: 'nhom16', text: 'Ngân hàng Nhom16' },
-            { value: 'sacombank', text: 'Ngân hàng Sacombank' },
-        ],
-        isSend: false,
-        OTPCode:''
-    }
-  },
-  methods:{
-    onSendOTPCode(){
-        if(this.bank === 'nhom16'){
-            this.$store.dispatch('sendOTPCodePGP', localStorage.getItem('number'));
+    data() {
+        return {
+            number:'',
+            money:'',
+            content:'',
+            type: null,
+            options:[
+                { value: null, text: 'Chọn hình thức trả phí' },
+                { value: 'NG', text: 'Người gửi trả phí' },
+                { value: 'NN', text: 'Người nhận trả phí' },
+            ],
+            bank:null,
+            banks:[
+                { value: null, text: 'Chọn ngân hàng' },
+                { value: 'nhom16', text: 'Ngân hàng Nhom16' },
+                { value: 'sacombank', text: 'Ngân hàng Sacombank' },
+            ],
+            isSend: false,
+            OTPCode:'',
+            isVerify: false
         }
-        else if(this.bank === 'sacombank'){
-            this.$store.dispatch('sendOTPCodeRSA', localStorage.getItem('number'));
-        }
-        this.isSend = true;
     },
-    onVerify(){
-        const transaction = {
-        Number_NG: localStorage.getItem('number'),
-        Number_NN: this.number,
-        Content: this.content,
-        Money: this.money,
-        Fee:this.type,
-        Type: 'CHUYENKHOAN'
-        };
-        const otpCode = this.OTPCode;
-        const data={
-            transaction,
-            otpCode
-        };
-        if(this.bank === 'nhom16'){
-            this.$store.dispatch('sendInterPGP', data);
-        }
-        else if(this.bank === 'sacombank'){
-            this.$store.dispatch('sendInterRSA', data);
+    computed:{
+      ...mapGetters(['isSucceed'])
+    },
+    methods:{
+        onSendOTPCode(){
+            if(this.bank === 'nhom16'){
+                this.$store.dispatch('sendOTPCodePGP', localStorage.getItem('number'));
+            }
+            else if(this.bank === 'sacombank'){
+                this.$store.dispatch('sendOTPCodeRSA', localStorage.getItem('number'));
+            }
+            this.isSend = true;
+        },
+        onVerify(){
+            const transaction = {
+            Number_NG: localStorage.getItem('number'),
+            Number_NN: this.number,
+            Content: this.content,
+            Money: this.money,
+            Fee:this.type,
+            Type: 'CHUYENKHOAN'
+            };
+            const otpCode = this.OTPCode;
+            const data={
+                transaction,
+                otpCode
+            };
+            if(this.bank === 'nhom16'){
+                this.$store.dispatch('sendInterPGP', data);
+            }
+            else if(this.bank === 'sacombank'){
+                this.$store.dispatch('sendInterRSA', data);
+            }
+
+            setTimeout(()=>{
+                this.isVerify = true;
+            }, 3000);
+
+            setTimeout(()=>{
+                this.isVerify = false;
+            }, 6000);
         }
     }
-  }
 };
 </script>
 

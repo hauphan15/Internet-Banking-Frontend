@@ -5,10 +5,11 @@
       <div class="form">
         <h4>Xóa nhân viên</h4>
         <b-form @submit="onDelete">
+
           <b-form-group label="ID nhân viên">
-            <b-form-input v-model="id" type="number" required placeholder="ID nhân viên">
-            </b-form-input>
+            <b-form-input v-model="id" type="number" required placeholder="ID nhân viên"></b-form-input>
           </b-form-group>
+          
           <b-button id="btn" type="submit" variant="primary">Xóa nhân viên</b-button>
         </b-form>
       </div>
