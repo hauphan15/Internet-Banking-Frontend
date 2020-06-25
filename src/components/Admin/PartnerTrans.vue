@@ -3,7 +3,7 @@
         <br>
         <br>
         <h6>Tất cả giao dịch với ngân hàng đối tác</h6>
-        <Table :items="PartnerTrans"></Table>
+        <Table :items="PartnerTrans" ></Table>
 
         <br>
         <br>
@@ -17,7 +17,7 @@
             <b-form-datepicker v-model="to" class="mb-2"></b-form-datepicker>
         </b-form-group>
         <b-button variant="primary" @click="onLoad1">Xem</b-button>
-        <Table :items="PartnerTransByTime"></Table>
+        <Table :items="PartnerTransByTime" ></Table>
 
         <br>
         <br>
@@ -25,17 +25,17 @@
         <h6>Xem theo tên đối tác</h6> 
         
         <b-form-group>
-            <b-form-select v-model="bank" :options="options"></b-form-select>
+            <b-form-select v-model="bank1" :options="options"></b-form-select>
         </b-form-group>
         <b-button variant="primary" @click="onLoad2">Xem</b-button>
-        <Table :items="PartnerTransByName"></Table>
+        <Table :items="PartnerTransByName" ></Table>
 
         <br>
         <br>
 
         <h6>Tổng số tiền đã giao dịch với đối tác</h6> 
         <b-form-group>
-            <b-form-select v-model="bank" :options="options"></b-form-select>
+            <b-form-select v-model="bank2" :options="options"></b-form-select>
         </b-form-group>
 
         <b-form-group>
@@ -58,10 +58,12 @@ export default {
     },
     data() {
         return {
-            bank:'',
+            bank1:'',
+            bank2:'',
             from:'',
             to:'',
             options: [
+                { value: '', text: 'Chọn tên ngân hàng' },
                 { value: 'sacombank', text: 'Ngân hàng Sacombank' },
                 { value: 'nhom16', text: 'Ngân hàng của nhóm 16' },
                 { value: 'xxxBankLovesyyyBank', text: 'Ngân hàng test'}
@@ -87,10 +89,10 @@ export default {
             this.$store.dispatch('partnerTransByTime', {from: this.from, to: this.to});
         },
         onLoad2(){
-            this.$store.dispatch('partnerTransByName',this.bank);
+            this.$store.dispatch('partnerTransByName',this.bank1);
         },
         onLoad3(){
-            this.$store.dispatch('partnerStatisticMoney',this.bank);
+            this.$store.dispatch('partnerStatisticMoney',this.bank2);
         }
     }
 }

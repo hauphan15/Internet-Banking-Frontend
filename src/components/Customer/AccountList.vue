@@ -1,6 +1,6 @@
 <template>
     <div>
-
+        <br>
         <h6>Tài khoản thanh toán</h6>
         <Table :items="SpendingAcc"></Table>
 

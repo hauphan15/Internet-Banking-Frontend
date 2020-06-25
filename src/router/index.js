@@ -84,6 +84,19 @@ const routes = [{
         meta: { requiresAuth: true },
         component: () =>
             import ( /* webpackChunkName: "inter" */ '../views/Customer/InterTransaction.vue')
+    },
+    {
+        path: '/customer/changepw',
+        name: 'changepw',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "changepw" */ '../views/Customer/ChangePw.vue')
+    },
+    {
+        path: '/misspw',
+        name: 'misspw',
+        component: () =>
+            import ( /* webpackChunkName: "misspw" */ '../views/Customer/MissPw.vue')
     }
 ]
 

@@ -6,7 +6,7 @@
         <SelectZone/>
       </div>
       <div class="maincontent col-sm-9 shadow">
-        <debt-list></debt-list>
+          <change-pw></change-pw>
       </div>
     </div>
     <Footer/>
@@ -15,13 +15,16 @@
 
 <script>
 import Header from "../../components/Header"
-import DebtList from "../../components/Customer/DebtList.vue"
 import SelectZone from "../../components/Customer/SelectZone"
+import ChangePw from '../../components/Customer/ChangePw.vue'
 import Footer from '../../components/Footer.vue'
 
 export default {
     components: {
-        Header, DebtList, SelectZone, Footer
+        Header, 
+        SelectZone, 
+        ChangePw,
+        Footer
     }
 }
 </script>

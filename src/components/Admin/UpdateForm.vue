@@ -37,11 +37,12 @@
 </template>
 
 <script>
+import {mapGetters} from 'vuex'
 
 export default {
     data() {
         return {
-            id:'',
+            id: '',
             username:'',
             fullname:'',
             email:'',
@@ -49,6 +50,9 @@ export default {
             dob:''
 
         }
+    },
+    computed:{
+        ...mapGetters(['SelectedRow'])
     },
     methods:{
         onUpdate(evt){

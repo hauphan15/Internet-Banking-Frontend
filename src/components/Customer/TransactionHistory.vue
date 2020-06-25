@@ -1,5 +1,6 @@
 <template>
   <div>
+    <br>
     <h6>Giao dịch nhận tiền</h6>
     <Table :items="TakeTrans"></Table>
     <br>

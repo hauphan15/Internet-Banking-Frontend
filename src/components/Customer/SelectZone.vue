@@ -31,6 +31,10 @@
         <router-link class="nav-link" to='/customer/transaction-history'>Lịch sử giao dịch</router-link>
       </li>
 
+      <li class="nav-item">
+        <router-link class="nav-link" to='/customer/changepw'>Đổi mật khẩu</router-link>
+      </li>
+
       <br />
     </ul>
   </div>
@@ -41,17 +45,19 @@ export default {};
 </script>
 
 <style>
-.choosezone {
-  background: white;
-}
 .myheader {
   width: 100%;
   background: #48b5f2;
   height: 40px;
   padding: 5px;
 }
-i {
+
+.nav-link{
   color: black;
+}
+
+.router-link-active{
+  font-weight: bold;
 }
 
 </style>

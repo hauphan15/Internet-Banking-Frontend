@@ -1,6 +1,6 @@
 <template>
   <div class="p-2">
-    <h1 class="text-center mt-2">Chuyển tiền nội bộ</h1>
+    <h1 class="text-center mt-2">Chuyển tiền liền ngân hàng</h1>
     <form class="form">
         <div class="form-group" >
             <label for="stk">Số tài khoản người nhận:</label>

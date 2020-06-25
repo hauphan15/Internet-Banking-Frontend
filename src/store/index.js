@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        isSucceed: false,
         correctUnPw: true,
         accessToken: '',
         refreshToken: '',
@@ -26,9 +27,16 @@ export default new Vuex.Store({
         SpendingAcc: [],
         TakerList: [],
         CreditorList: [],
-        DebtorList: []
+        DebtorList: [],
+        SelectedRow: []
     },
     getters: {
+        isExpiredToken(state) {
+            return state.isExpiredToken;
+        },
+        isSucceed(state) {
+            return state.isSucceed
+        },
         GetFullName(state) {
             return state.fullName;
         },
@@ -79,6 +87,9 @@ export default new Vuex.Store({
         },
         CreditorList(state) {
             return state.CreditorList;
+        },
+        SelectedRow(state) {
+            return state.SelectedRow;
         }
     },
     mutations: {
@@ -96,6 +107,7 @@ export default new Vuex.Store({
             state.fullName = '';
             state.UserID = '';
             state.Number = '';
+            state.correctUnPw = true;
         },
 
         //employee
@@ -191,6 +203,12 @@ export default new Vuex.Store({
         },
         CORRECT_USERNAME_PW(state, payload) {
             state.correctUnPw = payload;
+        },
+        IS_SUCCEED(state, payload) {
+            state.isSucceed = payload;
+        },
+        SELECTED_ROW(state, payload) {
+            state.SelectedRow = payload;
         }
 
     },
@@ -243,30 +261,55 @@ export default new Vuex.Store({
             });
             customer.ID = response.data.UserAcc;
             ctx.commit('ADD_CUSTOMER', customer);
+
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //tạo tk tiết kiệm
         async addSavingAcc(ctx, username) {
-            await axios.post('http://localhost:3000/employee/create-savingacc', { UserName: username }, {
+            const response = await axios.post('http://localhost:3000/employee/create-savingacc', { UserName: username }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //nạp tiền vào tài khoản thanh toán
         async addMoneySpendingAcc(ctx, data) {
-            await axios.post('http://localhost:3000/employee/addmoney-spendingacc', data, {
+            const response = await axios.post('http://localhost:3000/employee/addmoney-spendingacc', data, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //nạp tiền vào tài khoản tiết kiệm
         async addMoneySavingAcc(ctx, data) {
-            await axios.post('http://localhost:3000/employee/addmoney-savingacc', data, {
+            const response = await axios.post('http://localhost:3000/employee/addmoney-savingacc', data, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch nhân tiền
         async takeTrans(ctx, number) {
@@ -276,6 +319,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('TAKE_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch gửi tiền
         async sendTrans(ctx, number) {
@@ -285,6 +334,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SEND_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch nhắc nợ
         async debtTrans(ctx, number) {
@@ -294,6 +349,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('DEBT_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
 
         //ADMIN
@@ -305,6 +366,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('EMPLOYEE_LIST', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //thêm nhân viên
         async addEmployee(ctx, employee) {
@@ -316,23 +383,42 @@ export default new Vuex.Store({
             employee.ID = response.data.ID;
             employee.UserPassword = response.data.UserPassword;
             ctx.commit('ADD_EMPLOYEE', employee);
+
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //xóa nhân viên
         async deleteEmployee(ctx, id) {
-            await axios.post('http://localhost:3000/admin/delete-employee', { ID: id }, {
+            const response = await axios.post('http://localhost:3000/admin/delete-employee', { ID: id }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
             ctx.commit('DELETE_EMPLOYEE', id);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //cập nhật thông tin nhân viên
         async updateEmployee(ctx, info) {
-            await axios.post('http://localhost:3000/admin/update-employee', info, {
+            const response = await axios.post('http://localhost:3000/admin/update-employee', info, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch với tất cả đối tác
         async partnerTrans(ctx) {
@@ -342,6 +428,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('PARTNER_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch trong khoảng thời gian
         async partnerTransByTime(ctx, time) {
@@ -351,6 +443,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('PARTNER_TRANS_TIME', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch với đối tác chỉ định cụ thể
         async partnerTransByName(ctx, name) {
@@ -360,6 +458,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('PARTNER_TRANS_NAME', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //tổng số tiền đã giao dịch với đối tác chỉ định cụ thể
         async partnerStatisticMoney(ctx, name) {
@@ -369,6 +473,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('PARTNER_STATISTIC_MONEY', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
 
 
@@ -381,6 +491,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SPENDING_ACC', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //liệt kê tài khoản tiết kiệm
         async savingAcc(ctx, id) {
@@ -390,6 +506,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SAVING_ACC', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //liệt kê danh sách người nhận
         async takerList(ctx, id) {
@@ -399,6 +521,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('TAKER_LIST', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //thêm người nhận
         async addTaker(ctx, info) {
@@ -408,6 +536,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('ADD_TAKER', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //xóa người nhận - chưa làm
         async removeTaker(ctx, id) {
@@ -417,6 +551,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('REMOVE_TAKER', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //chỉnh sửa thông tin người nhận - chưa làm
         async updateTaker(ctx, info) {
@@ -426,6 +566,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('UPDATE', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //thêm con nợ
         async addDebtor(ctx, info) {
@@ -435,6 +581,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('ADD_DEBTOR', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //xóa nhắc nợ - chưa làm
         async removeDebt(ctx, id) {
@@ -444,6 +596,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('REMOVE_DEBT', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //danh sách con nợ
         async debtorList(ctx, id) {
@@ -453,6 +611,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('DEBTOR_LIST', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //danh sách chủ nợ
         async creditorList(ctx, id) {
@@ -462,6 +626,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('CREDITOR_LIST', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch nhân tiền
         async takeTransCustomer(ctx, id) {
@@ -471,6 +641,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('TAKE_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch gửi tiền
         async sendTransCustomer(ctx, id) {
@@ -480,6 +656,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SEND_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //giao dịch nhắc nợ
         async debtTransCustomer(ctx, id) {
@@ -489,6 +671,12 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('DEBT_TRANS', response.data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //chuyển tiền nội bộ
         async sendLocal(ctx, data) {
@@ -498,14 +686,26 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SEND_TRANS', response.data.transInfo);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //gửi mã otp
         async sendOTPCode(ctx, number) {
-            await axios.post('http://localhost:3000/customer/trans/otp', { Number: number }, {
+            const response = await axios.post('http://localhost:3000/customer/trans/otp', { Number: number }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //chuyển tiền liên ngân hàng - PGP
         async sendInterPGP(ctx, data) {
@@ -516,14 +716,26 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SEND_TRANS', response.data.transInfo);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //gửi mã otp
         async sendOTPCodePGP(ctx, number) {
-            await axios.post('http://localhost:3000/partner-pgp/otp', { Number: number }, {
+            const response = await axios.post('http://localhost:3000/partner-pgp/otp', { Number: number }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //chuyển tiền liên ngân hàng - RSA
         async sendInterRSA(ctx, data) {
@@ -534,15 +746,93 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SEND_TRANS', response.data.transInfo);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
         //gửi mã otp
         async sendOTPCodeRSA(ctx, number) {
-            await axios.post('http://localhost:3000/partner-rsa/otp', { Number: number }, {
+            const response = await axios.post('http://localhost:3000/partner-rsa/otp', { Number: number }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
         },
+        //đổi mật khẩu - khi đã đăng nhập
+        async changePw(ctx, data) {
+            const response = await axios.post('http://localhost:3000/customer/changepw', data, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
+        },
+        //đổi mật khẩu - khi đã quên mật khẩu
+        async missPw(ctx, data) {
+            const response = await axios.post('http://localhost:3000/misspw', {
+                UserName: data.UserName,
+                UserEmail: data.UserEmail,
+                NewPassword: data.NewPassword
+            }, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token'),
+                    'x-otp-code': data.OTP
+                }
+            });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
+        },
+        //gửi mã otp khi quên mật khẩu
+        async sendOTPCodeMissPw(ctx, data) {
+            await axios.post('http://localhost:3000/misspw/otp', data);
+        },
+        //USER-TOKEN
+        async refreshTokenCustomer(ctx, data) {
+            const response = await axios.post('http://localhost:3000/login/user-refresh', data);
+            if (response.data.success === true) {
+                localStorage.setItem('access_token', response.data.accessToken);
+                ctx.commit('LOGIN');
+            }
+        },
+        //ADMIN-TOKEN
+        async refreshTokenAdmin(ctx, data) {
+            const response = await axios.post('http://localhost:3000/login/admin-refresh', data);
+            if (response.data.success === true) {
+                localStorage.setItem('access_token', response.data.accessToken);
+                ctx.commit('LOGIN');
+            }
+        },
+        //EMPLOYEE-TOKEN
+        async refreshTokenEmployee(ctx, data) {
+            const response = await axios.post('http://localhost:3000/login/employee-refresh', data);
+            if (response.data.success === true) {
+                localStorage.setItem('access_token', response.data.accessToken);
+                ctx.commit('LOGIN');
+            }
+        },
+
+        // OTHERS
+        selectedRow(ctx, data) {
+            ctx.commit('SELECTED_ROW', data[0]);
+        }
     },
     modules: {}
 })

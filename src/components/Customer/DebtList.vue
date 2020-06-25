@@ -1,5 +1,6 @@
 <template>
     <div>
+        <br>
         <h6>Danh sách con nợ</h6>
         <Table :items="DebtorList"></Table>
 

@@ -30,7 +30,6 @@ import CreateEmployeeAcc from '../../components/Admin/CreateEmployeeAcc.vue'
 import MangeEmployee from '../../components/Admin/ManageEmployee.vue'
 import PartnerTrans from '../../components/Admin/PartnerTrans.vue'
 
-
 export default {
   name: 'Home',
   components: {

@@ -5,8 +5,6 @@
 
       <div class="col-sm-3">
         <SelectZone/>
-        <br>
-        <ProfileZone/>
       </div>
 
       <div class="maincontent col-sm-9 shadow">
@@ -21,7 +19,6 @@
 import Header from "../../components/Header"
 import Footer from '../../components/Footer.vue'
 import SelectZone from "../../components/Customer/SelectZone"
-import ProfileZone from "../../components/Customer/ProfileZone"
 
 
 export default {
@@ -29,7 +26,6 @@ export default {
   components: {
     Header, 
     SelectZone, 
-    ProfileZone,
     Footer
   }
 };

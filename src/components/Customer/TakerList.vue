@@ -1,9 +1,9 @@
 <template>
     <div>
-        <h6>Thêm người nhận</h6>
+        <br>
         <div class="form">
         <b-form @submit="onAdd">
-
+            <h5>Thêm người nhận</h5>
             <b-form-group label="Số tài khoản:">
                 <b-form-input v-model="number" type="text" required>
                 </b-form-input>
