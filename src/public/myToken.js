@@ -2,9 +2,9 @@ const axios = require("axios");
 
 const RefreshToken = async function(callback) {
     const data = {
-        accessToken: localStorage.getItem("myaccesstoken"),
-        refreshToken: localStorage.getItem("myrefreshtoken"),
-        id: localStorage.getItem("myID"),
+        accessToken: localStorage.getItem("access_token"),
+        refreshToken: localStorage.getItem("refresh_token"),
+        id: localStorage.getItem("userid"),
     };
     axios
         .post("http://localhost:3000/login/user-refresh", data)
@@ -19,7 +19,7 @@ const RefreshToken = async function(callback) {
 const CheckToken = async function(callback) {
     const config = {
         headers: {
-            "x-access-token": localStorage.getItem("myaccesstoken"),
+            "x-access-token": localStorage.getItem("access_token"),
         },
     };
     axios
@@ -36,10 +36,10 @@ module.exports = {
 
     RefreshMyToken: (router) => {
         CheckToken(function(data) {
-            if (data.message) {
+            if (!data.success) {
                 RefreshToken(function(data) {
-                    if (data.result == true) {
-                        localStorage.setItem("myaccesstoken", data.accessToken);
+                    if (data.success == true) {
+                        localStorage.setItem("access_token", data.accessToken);
                     } else {
                         localStorage.clear();
                         router.push('/login');
