@@ -43,10 +43,13 @@
               Nhân viên
             </label>
           </div>
-
+          <vue-recaptcha @verify="onVerify" sitekey="6LdOD6gZAAAAADZSN2jO2r60n2n2LlQwHVmDv4mV" :loadRecaptchaScript="true"></vue-recaptcha>
+          <h6 class="checkempty mt-1" v-if="showerror">
+            Chưa check captcha!
+          </h6>
           <hr />
           <div class="d-flex justify-content-center">
-            <button type="submit" class="btn lg btn-primary ">Đăng nhập</button>
+            <button type="submit" class="btn btn-primary ">Đăng nhập</button>
           </div>
         </form>
       </div>
@@ -58,13 +61,15 @@
 <script>
 import Header from "../components/Header.vue";
 import Footer from '../components/Footer.vue';
+import VueRecaptcha from 'vue-recaptcha';
 import { mapGetters } from 'vuex';
 
 export default {
   name: "login",
   components: {
     Header,
-    Footer
+    Footer,
+    VueRecaptcha
   },
   computed:{
     ...mapGetters(['correctUnPw'])
@@ -75,12 +80,15 @@ export default {
         username: "",
         password: "",
         picker: "",
-      }
+      },
+      showerror: false,
+      checkcaptcha: false,
     };
   },
   methods: {
     onLogin(event){
-      event.preventDefault();
+      if(this.checkcaptcha) {
+        event.preventDefault();
       const data={
         UserName: this.form.username,
         UserPassword: this.form.password,
@@ -96,6 +104,14 @@ export default {
         this.$router.push(`/${this.form.picker}`); 
         }, 3000);
       
+      }
+      else {
+        this.showerror = true;
+      }
+    },
+    onVerify() {
+      this.checkcaptcha = true;
+      this.showerror = false;
     }
   },
 };
@@ -103,7 +119,7 @@ export default {
 
 <style>
 .container{
-  width: 500px;
+  width: 600px;
 }
 
 .myform {

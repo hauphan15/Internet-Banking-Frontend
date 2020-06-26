@@ -12,12 +12,16 @@
 import Header from "../../components/Header"
 import MissPw from '../../components/Customer/MissPw.vue'
 import Footer from '../../components/Footer.vue'
+import mytoken from "../../public/myToken"
 
 export default {
     components: {
         Header, 
         MissPw,
         Footer
+    },
+    mounted() {
+      mytoken.RefreshMyToken(this.$router);
     }
 }
 </script>
