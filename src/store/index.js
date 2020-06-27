@@ -152,8 +152,12 @@ export default new Vuex.Store({
             ];
         },
         DELETE_EMPLOYEE(state, payload) {
-            const index = state.EmployeeList.findIndex(employee => employee.ID === payload);
-            state.EmployeeList.splice(index, 1);
+            for (let index = 0; index < state.EmployeeList.length; index++) {
+                if (+state.EmployeeList[index].ID === +payload) {
+                    state.EmployeeList.splice(index, 1);
+                    return;
+                }
+            }
         },
         PARTNER_TRANS(state, payload) {
             state.PartnerTrans = payload;
@@ -186,10 +190,20 @@ export default new Vuex.Store({
             ];
         },
         REMOVE_TAKER(state, payload) {
-            state.TakerList = payload;
+            for (let index = 0; index < state.TakerList.length; index++) {
+                if (+state.TakerList[index].ID === +payload) {
+                    state.TakerList.splice(index, 1);
+                    return;
+                }
+            }
         },
         UPDATE_TAKER(state, payload) {
-            state.TakerList = payload;
+            for (let index = 0; index < state.TakerList.length; index++) {
+                if (+state.TakerList[index].ID === +payload.ID) {
+                    state.TakerList[index].Name = payload.Name;
+                    return;
+                }
+            }
         },
         ADD_DEBTOR(state, payload) {
             state.DebtorList = [
@@ -407,10 +421,10 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('DELETE_EMPLOYEE', id);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('DELETE_EMPLOYEE', id);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
@@ -500,12 +514,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SPENDING_ACC', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //liệt kê tài khoản tiết kiệm
         async savingAcc(ctx, id) {
@@ -515,12 +523,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SAVING_ACC', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //liệt kê danh sách người nhận
         async takerList(ctx, id) {
@@ -530,12 +532,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('TAKER_LIST', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //thêm người nhận
         async addTaker(ctx, info) {
@@ -544,40 +540,70 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('ADD_TAKER', response.data);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('ADD_TAKER', response.data.object);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
         },
-        //xóa người nhận - chưa làm
+        //thêm người nhận
+        async addTakerRSABank(ctx, info) {
+            const response = await axios.post('http://localhost:3000/partner-rsa/get-info', info, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+            console.log(response.data.success);
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+                ctx.commit('ADD_TAKER', response.data.object);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
+        },
+        //thêm người nhận
+        async addTakerPGPBank(ctx, info) {
+            const response = await axios.post('http://localhost:3000/partner-rsa/get-info', info, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+                ctx.commit('ADD_TAKER', response.data.object);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
+        },
+        //xóa người nhận
         async removeTaker(ctx, id) {
             const response = await axios.post('http://localhost:3000/customer/takerlist/delete', { ID: id }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('REMOVE_TAKER', response.data);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('REMOVE_TAKER', id);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
         },
-        //chỉnh sửa thông tin người nhận - chưa làm
+        //chỉnh sửa thông tin người nhận
         async updateTaker(ctx, info) {
             const response = await axios.post('http://localhost:3000/customer/takerlist/update', info, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('UPDATE', response.data);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('UPDATE_TAKER', info);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }

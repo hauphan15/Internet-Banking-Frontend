@@ -12,6 +12,11 @@
             <input type="text" class="form-control" placeholder="STK" v-model="number"/>
         </div>
 
+        <b-form-group label="Hoặc chọn từ danh sách người nhận:">
+            <b-button v-if="!isTable" variant="outline-primary" @click="showList" style="width: 150px">Xem danh sách</b-button>
+            <Table v-else :items="TakerList"></Table>
+        </b-form-group>
+
         <div class="form-group">
             <label for="money">Số tiền:</label>
             <input type="number" class="form-control" placeholder="Số Tiền" v-model="money"/>
@@ -45,8 +50,12 @@
 
 <script>
 import {mapGetters} from 'vuex'
+import Table from '../Table.vue'
 
 export default {
+  components:{
+    Table
+  },
   data() {
     return {
       number:'',
@@ -60,17 +69,22 @@ export default {
       ],
       isSend: false,
       OTPCode:'',
-      isVerify: false
+      isVerify: false,
+      isTable: false
     }
   },
+  mounted() {
+        this.$store.dispatch('takerList',localStorage.getItem('userid'));
+  },
   computed:{
-      ...mapGetters(['isSucceed'])
+      ...mapGetters(['isSucceed', 'TakerList'])
   },
   methods:{
     onSendOTPCode(){
       this.$store.dispatch('sendOTPCode', localStorage.getItem('number'));
       this.isSend = true;
     },
+
     onVerify(){
         const transaction = {
         Number_NG: localStorage.getItem('number'),
@@ -96,6 +110,10 @@ export default {
           this.isVerify = false;
       }, 6000);
 
+    },
+
+    showList(){
+      this.isTable = true;
     }
   }
 };
