@@ -36,7 +36,7 @@ module.exports = {
 
     RefreshMyToken: (router) => {
         CheckToken(function(data) {
-            if (!data.success) {
+            if (!data.Tokensuccess) {
                 RefreshToken(function(data) {
                     if (data.success == true) {
                         localStorage.setItem("access_token", data.accessToken);
