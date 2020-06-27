@@ -39,7 +39,7 @@
               <b-form-datepicker v-model="form.dob" placeholder="Ngày sinh" class="mb-2"></b-form-datepicker>
           </b-form-group>
     
-          <b-button id="btn" type="submit" variant="primary">Đăng ký tài khoản</b-button>
+          <b-button type="submit" variant="primary">Đăng ký tài khoản</b-button>
         </b-form>
       </div>
     </b-container>

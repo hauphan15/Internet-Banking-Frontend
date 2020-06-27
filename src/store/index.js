@@ -212,7 +212,12 @@ export default new Vuex.Store({
             ];
         },
         REMOVE_DEBT(state, payload) {
-            state.DebtorList = payload;
+            for (let index = 0; index < state.DebtorList.length; index++) {
+                if (+state.DebtorList[index].ID === +payload) {
+                    state.DebtorList.splice(index, 1);
+                    return;
+                }
+            }
         },
         DEBTOR_LIST(state, payload) {
             state.DebtorList = payload;
@@ -389,13 +394,8 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('EMPLOYEE_LIST', response.data);
 
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
+            ctx.commit('EMPLOYEE_LIST', response.data);
         },
         //thêm nhân viên
         async addEmployee(ctx, employee) {
@@ -548,7 +548,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', false);
             }
         },
-        //thêm người nhận
+        //thêm người nhận RSA Bank
         async addTakerRSABank(ctx, info) {
             const response = await axios.post('http://localhost:3000/partner-rsa/get-info', info, {
                 headers: {
@@ -563,7 +563,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', false);
             }
         },
-        //thêm người nhận
+        //thêm người nhận PGP Bank
         async addTakerPGPBank(ctx, info) {
             const response = await axios.post('http://localhost:3000/partner-rsa/get-info', info, {
                 headers: {
@@ -615,9 +615,9 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('ADD_DEBTOR', response.data);
 
             if (response.data.success === true) {
+                ctx.commit('ADD_DEBTOR', response.data.object);
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
@@ -630,10 +630,10 @@ export default new Vuex.Store({
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
-            ctx.commit('REMOVE_DEBT', response.data);
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('REMOVE_DEBT', id);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
@@ -646,12 +646,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('DEBTOR_LIST', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //danh sách chủ nợ
         async creditorList(ctx, id) {
@@ -661,12 +655,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('CREDITOR_LIST', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //giao dịch nhân tiền
         async takeTransCustomer(ctx, id) {
@@ -676,12 +664,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('TAKE_TRANS', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //giao dịch gửi tiền
         async sendTransCustomer(ctx, id) {
@@ -691,12 +673,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('SEND_TRANS', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //giao dịch nhắc nợ
         async debtTransCustomer(ctx, id) {
@@ -706,12 +682,6 @@ export default new Vuex.Store({
                 }
             });
             ctx.commit('DEBT_TRANS', response.data);
-
-            if (response.data.success === true) {
-                ctx.commit('IS_SUCCEED', true);
-            } else {
-                ctx.commit('IS_SUCCEED', false);
-            }
         },
         //chuyển tiền nội bộ
         async sendLocal(ctx, data) {
@@ -866,7 +836,7 @@ export default new Vuex.Store({
 
         // OTHERS
         selectedRow(ctx, data) {
-            ctx.commit('SELECTED_ROW', data[0]);
+            ctx.commit('SELECTED_ROW', data);
         }
     },
     modules: {}

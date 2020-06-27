@@ -1,6 +1,11 @@
 <template>
   <div>
-    <b-table hover :items="items" :key="items.ID" selectable  @row-selected="onRowSelected" sticky-header>
+    <b-table hover
+      selectable
+      :select-mode="selectMode"
+      :items="items"
+      @row-selected="onRowSelected"
+      responsive="sm" sticky-header>
     </b-table>
   </div>
 </template>
@@ -10,7 +15,7 @@
       props:['items'],
       data() {
         return {
-          selected:{}
+          selectMode: 'single',
         }
       },
       methods:{

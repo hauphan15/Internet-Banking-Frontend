@@ -6,7 +6,7 @@
           <h4>Cập nhật thông tin nhân viên</h4>
         <b-form @submit="onUpdate">
             <b-form-group label="ID nhân viên">
-                <b-form-input v-model="id" type="number" required placeholder="ID nhân viên"></b-form-input>
+                <b-form-input v-model="id" type="number"  required placeholder="ID nhân viên"></b-form-input>
             </b-form-group>
 
             <b-form-group label="Tên đăng nhập">
@@ -29,7 +29,7 @@
                 <b-form-datepicker v-model="dob" class="mb-2"></b-form-datepicker>
             </b-form-group>
 
-            <b-button id="btn" type="submit" variant="primary">Cập nhật</b-button>
+            <b-button type="submit" variant="primary">Cập nhật</b-button>
         </b-form>
       </div>
     </b-container>
@@ -47,8 +47,7 @@ export default {
             fullname:'',
             email:'',
             phone:'',
-            dob:''
-
+            dob: ''
         }
     },
     computed:{
