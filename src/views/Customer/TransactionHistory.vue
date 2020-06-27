@@ -18,10 +18,14 @@ import Header from "../../components/Header";
 import TransactionHistory from "../../components/Customer/TransactionHistory.vue";
 import SelectZone from "../../components/Customer/SelectZone"
 import Footer from '../../components/Footer.vue'
+import mytoken from "../../public/myToken"
 
 export default {
     components: {
         Header, TransactionHistory, SelectZone, Footer
+    },
+    mounted() {
+      mytoken.RefreshMyToken(this.$router);
     }
 }
 </script>

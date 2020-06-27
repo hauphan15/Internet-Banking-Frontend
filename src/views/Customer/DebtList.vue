@@ -18,10 +18,14 @@ import Header from "../../components/Header"
 import DebtList from "../../components/Customer/DebtList.vue"
 import SelectZone from "../../components/Customer/SelectZone"
 import Footer from '../../components/Footer.vue'
+import mytoken from "../../public/myToken"
 
 export default {
     components: {
         Header, DebtList, SelectZone, Footer
+    },
+    mounted() {
+      mytoken.RefreshMyToken(this.$router);
     }
 }
 </script>

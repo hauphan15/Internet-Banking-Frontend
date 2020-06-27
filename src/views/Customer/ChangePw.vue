@@ -18,6 +18,7 @@ import Header from "../../components/Header"
 import SelectZone from "../../components/Customer/SelectZone"
 import ChangePw from '../../components/Customer/ChangePw.vue'
 import Footer from '../../components/Footer.vue'
+import mytoken from "../../public/myToken"
 
 export default {
     components: {
@@ -25,6 +26,9 @@ export default {
         SelectZone, 
         ChangePw,
         Footer
+    },
+    mounted() {
+      mytoken.RefreshMyToken(this.$router);
     }
 }
 </script>
