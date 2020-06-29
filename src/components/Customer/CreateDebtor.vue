@@ -58,7 +58,7 @@ export default {
 
       setTimeout(()=>{
         this.isAdd = true;
-      }, 3000);
+      }, 1000);
 
       setTimeout(()=>{
         this.isAdd = false;

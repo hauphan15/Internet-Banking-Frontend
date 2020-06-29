@@ -11,7 +11,6 @@
           class="form-control"
           placeholder="lời nhắn"
           name="text"
-          v-bind="message"
         />
 
         <button type="submit" class="btn btn-outline-danger ml-3">Xóa</button>
@@ -24,7 +23,7 @@
         <thead>
           <tr>
             <th>#</th>
-            <th>Người nợ</th>
+            <th>Người gửi</th>
             <th>STK</th>
             <th>Lời nhắn</th>
             <th>Tiền nợ</th>
@@ -41,9 +40,14 @@
             <td>{{ item.FullName }}</td>
             <td>{{ item.Number }}</td>
             <td>{{ item.Content }}</td>
-            <td class="imoney">{{ item.Money }} VNĐ</td>
+            <td class="money">{{ item.Money }} VNĐ</td>
             <td class="p-1">
-              <button class="btn btn-outline-danger">Xóa</button>
+              <button v-on:click="onPay" class="btn btn-outline-success">
+                Trả
+              </button>
+              <button v-on:click="onDel" class="btn btn-outline-danger ml-1">
+                Xóa
+              </button>
             </td>
           </tr>
         </tbody>
@@ -64,7 +68,6 @@ export default {
         Content: "",
         Money: "",
       },
-      message: ""
     };
   },
   methods: {
@@ -75,33 +78,30 @@ export default {
       this.debt.Content = item.Content;
       this.debt.Money = item.Money;
     },
+    onPay() {
+      console.log(this.debt);
+    },
+    onDel() {
+      console.log(this.debt);
+    },
     onDelete(event) {
-        event.preventDefault();
-        const data = {
-            UserID: localStorage.getItem("userid"),
-            Number: this.debt.STK,
-            Content: this.debt.Content,
-            Money: this.debt.Money,
-            isdebtor: false
-        }
-        this.$store.dispatch('removeDebt', data);
-
-        const data1 = {
-            UserID: localStorage.getItem("userid"),
-            Number: this.debt.STK,
-            Content: this.debt.Content,
-            Money: this.debt.Money,
-        }
-        this.$store.dispatch('sendNotify', data1);
-        this.$router.go(0);
-    }
+      event.preventDefault();
+      const data = {
+        UserID: localStorage.getItem("userid"),
+        Number: this.debt.STK,
+        Content: this.debt.Content,
+        Money: this.debt.Money,
+        isdebtor: false,
+      };
+      this.$store.dispatch("removeDebt", data);
+    },
   },
 };
 </script>
 
 <style scroped>
-.imoney {
-  color: green;
+.money {
+  color: red;
 }
 #btndel {
   width: 100px;
