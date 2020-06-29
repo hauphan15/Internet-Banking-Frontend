@@ -19,7 +19,7 @@
     </div>
 
     <div class="mt-2">
-      <table class="table table-borderless">
+      <table class="table table-borderless table-hover">
         <thead>
           <tr>
             <th>#</th>

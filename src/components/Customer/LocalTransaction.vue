@@ -14,8 +14,16 @@
         </div>
 
         <b-form-group label="Hoặc chọn từ danh sách người nhận:">
-            <b-button v-if="!isTable" variant="outline-primary" @click="showList" style="width: 150px">Xem danh sách</b-button>
-            <Table v-else :items="TakerList"></Table>
+            <b-button style="width: 400px; " v-b-toggle.collapse-1 variant="outline-primary">Xem danh sách</b-button>
+            <b-collapse id="collapse-1" class="mt-2">
+                  <b-table hover 
+                      selectable 
+                      :select-mode="selectMode" 
+                      :items="TakerList" 
+                      @row-selected="onRowSelected" 
+                      sticky-header>
+                  </b-table>
+            </b-collapse>
         </b-form-group>
 
         <div class="form-group">
@@ -31,8 +39,9 @@
         <b-form-group>
             <b-form-select v-model="type" :options="options"></b-form-select>
         </b-form-group>
-
-        <button type="button" class="btn btn-primary mt-2" @click="onSendOTPCode">Gửi</button>
+        <div class="d-flex justify-content-center">
+              <button type="button" class="btn btn-primary mt-2" @click="onSendOTPCode">Chuyển tiền</button>
+        </div>
     </form>
 
     <div v-if="isSend">
@@ -42,7 +51,9 @@
                 <label for="stk">Mã OTP:</label>
                 <input type="text" class="form-control" placeholder="Mã OTP" v-model="OTPCode"/>
             </div>
+            <div class="d-flex justify-content-center">
             <button type="button" @click="onVerify" class="btn btn-primary mt-2">Gửi</button>
+            </div>
         </form>
     </div>
 
@@ -51,12 +62,8 @@
 
 <script>
 import {mapGetters} from 'vuex'
-import Table from '../Table.vue'
 
 export default {
-  components:{
-    Table
-  },
   data() {
     return {
       number:'',
@@ -71,7 +78,7 @@ export default {
       isSend: false,
       OTPCode:'',
       isVerify: false,
-      isTable: false
+      selectMode: 'single'
     }
   },
   mounted() {
@@ -110,20 +117,16 @@ export default {
       setTimeout(()=>{
           this.isVerify = false;
       }, 6000);
-
     },
 
-    showList(){
-      this.isTable = true;
+    onRowSelected(items){
+      this.number = items[0].Number;
     }
   }
 };
 </script>
 
-<style>
-.btn{
-  width: 100px;
-}
+<style scoped>
 .form {
     margin-left: 250px;
     margin-top: 50px;

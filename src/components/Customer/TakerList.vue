@@ -1,67 +1,82 @@
 <template>
     <div>
         <br>
-        <div class="form">
-        <b-form>
+        <b-form class="form">
+        <div>
             <b-form-group>
                 <b-alert v-if="isSucceed && isAdd" variant="success" show>Thêm thành công</b-alert>
                 <b-alert v-if="!isSucceed && isAdd" variant="danger" show>Thêm thất bại</b-alert>
+                <b-alert v-if="!isSucceed && isAdd" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
 
-            <h5>Thêm người nhận</h5>
-            <b-form-group label="Số tài khoản:">
+            <b-button style="width: 300px" v-b-toggle.collapse-1 variant="primary">Thêm người nhận</b-button>
+            <b-collapse id="collapse-1" class="mt-2">
+                <b-form-group label="Số tài khoản:">
                 <b-form-input v-model="numberAdd" type="number" required placeholder="số tài khoản">
                 </b-form-input>
-            </b-form-group>
+                </b-form-group>
 
-            <b-form-group label="Tên gợi nhớ:">
-                <b-form-input v-model="nameAdd" placeholder="tên gợi nhớ"></b-form-input>
-            </b-form-group>
+                <b-form-group label="Tên gợi nhớ:">
+                    <b-form-input v-model="nameAdd" placeholder="tên gợi nhớ"></b-form-input>
+                </b-form-group>
 
-            <b-form-group label="Chọn ngân hàng:">
-                <b-form-select v-model="bank" :options="banks"></b-form-select>
-            </b-form-group>
-            <b-button variant="primary" @click="onAdd">Thêm</b-button>
-            <br>
-            <br>
-            <br>
-
+                <b-form-group label="Chọn ngân hàng:">
+                    <b-form-select v-model="bank" :options="banks"></b-form-select>
+                </b-form-group>
+                <b-button id="btn1" variant="outline-primary" @click="onAdd">Thêm người nhận</b-button>
+            </b-collapse>
+        </div>
+        <br>
+        <div>
             <b-form-group>
                 <b-alert v-if="isSucceed && isDel" variant="success" show>Xóa thành công</b-alert>
                 <b-alert v-if="!isSucceed && isDel" variant="danger" show>Xóa thất bại</b-alert>
+                <b-alert v-if="!isSucceed && isDel" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
-            <h5>Xóa người nhận</h5>
-            <b-form-group label="ID:">
-                <b-form-input v-model="IDDel" type="number" placeholder="ID" required>
-                </b-form-input>
-            </b-form-group>    
-            <b-button variant="primary" @click="onDelete">Xóa</b-button>
-            <br>
-            <br>
-            <br>
 
+            <b-button style="width: 300px" v-b-toggle.collapse-2 variant="danger">Xóa người nhận</b-button>
+            <b-collapse id="collapse-2" class="mt-2">
+                <b-form-group label="ID:">
+                    <b-form-input v-model="IDDel" type="number" placeholder="ID" readonly></b-form-input>
+                </b-form-group>    
+                <b-button id="btn2" variant="outline-danger" @click="onDelete">Xóa người nhận</b-button>
+            </b-collapse>
+        </div>
+        <br>
+        <div>
             <b-form-group>
                 <b-alert v-if="isSucceed && isUpdate" variant="success" show>Cập nhật thành công</b-alert>
                 <b-alert v-if="!isSucceed && isUpdate" variant="danger" show>Cập nhật thất bại</b-alert>
+                <b-alert v-if="!isSucceed && isUpdate" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
-            <h5>Cập nhật thông tin người nhận</h5>
-            <b-form-group label="ID:">
-                <b-form-input v-model="IDUpdate" type="number" placeholder="ID" required></b-form-input>
-            </b-form-group>    
-            <b-form-group label="Tên gợi nhớ:">
-                <b-form-input v-model="nameUpdate" placeholder="tên gợi nhớ"> </b-form-input>
-            </b-form-group>
-            <b-button variant="primary" @click="onUpdate">Cập nhật</b-button>
-        </b-form>
+
+            <b-button style="width: 300px" v-b-toggle.collapse-3 variant="success">Cập nhật thông tin</b-button>
+            <b-collapse id="collapse-3" class="mt-2">
+                <b-form-group label="ID:">
+                    <b-form-input v-model="IDUpdate" type="number" placeholder="ID" readonly></b-form-input>
+                </b-form-group>
+
+                <b-form-group label="Tên gợi nhớ:">
+                    <b-form-input v-model="nameUpdate" placeholder="tên gợi nhớ"> </b-form-input>
+                </b-form-group>
+                <b-button id="btn3" variant="outline-success" @click="onUpdate">Cập nhật thông tin</b-button>
+            </b-collapse>
         </div>
-        <h6>Danh sách người nhận</h6>
-        <Table :items="TakerList"></Table>
+    </b-form>
+    <br>
+    <h6>Danh sách người nhận</h6>
+    <b-table hover 
+        selectable 
+        :select-mode="selectMode" 
+        :items="TakerList" 
+        @row-selected="onRowSelected" 
+        sticky-header>
+    </b-table>
 
     </div>
 </template>
 
 <script>
-import Table from '../Table.vue'
 import { mapGetters } from 'vuex';
 
 export default {
@@ -84,11 +99,9 @@ export default {
             IDUpdate:'',
             isAdd: false,
             isDel: false,
-            isUpdate: false
+            isUpdate: false,
+            selectMode: 'single'
         }
-    },
-    components:{
-        Table
     },
     mounted() {
         this.$store.dispatch('takerList',localStorage.getItem('userid'));
@@ -96,7 +109,8 @@ export default {
     computed: {
         ...mapGetters([
             'TakerList',
-            'isSucceed'
+            'isSucceed',
+            'ErrorMessage'
             ])
     },
     methods:{
@@ -145,19 +159,34 @@ export default {
 
             setTimeout(()=>{
                 this.isUpdate = true;
-            }, 3500);
+            }, 3000);
 
             setTimeout(()=>{
                 this.isUpdate = false;
             }, 7000);
+        },
+
+        onRowSelected(items){
+            this.nameUpdate = items[0].Name;
+            this.IDUpdate = items[0].ID;
+            this.IDDel = items[0].ID;
         }
     }
 }
 </script>
 
-<style scroped>
+<style>
+#btn1{
+    width: 300px;
+}
+#btn2{
+    width: 300px;
+}
+#btn3{
+    width: 300px;
+}
 .form{
-    margin:50px auto;
-    width: 400px;
+    margin: 50px auto;
+    width: 300px;
 }
 </style>

@@ -29,9 +29,6 @@ export default {
 </script>
 
 <style>
-.btn{
-  width: 100px;
-}
 .form {
     margin-left: 250px;
     margin-top: 50px;

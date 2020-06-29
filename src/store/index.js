@@ -538,6 +538,7 @@ export default new Vuex.Store({
                 ctx.commit('ADD_TAKER', response.data.object);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //thêm người nhận RSA Bank
@@ -553,6 +554,7 @@ export default new Vuex.Store({
                 ctx.commit('ADD_TAKER', response.data.object);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //thêm người nhận PGP Bank
@@ -568,6 +570,7 @@ export default new Vuex.Store({
                 ctx.commit('ADD_TAKER', response.data.object);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //xóa người nhận
@@ -637,6 +640,7 @@ export default new Vuex.Store({
             });
             ctx.commit('DEBTOR_LIST', response.data);
         },
+        //gửi thông báo khi xóa nợ
         async sendNotify(ctx, data) {
             const response = await axios.post('http://localhost:3000/customer/reminddebt/notify', data, {
                 headers: {
