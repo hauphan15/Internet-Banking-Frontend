@@ -617,15 +617,14 @@ export default new Vuex.Store({
             });
 
             if (response.data.success === true) {
-                ctx.commit('ADD_DEBTOR', response.data.object);
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
         },
         //xóa nhắc nợ - chưa làm
-        async removeDebt(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/delete', { ID: id }, {
+        async removeDebt(ctx, data) {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/delete', data, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
@@ -633,23 +632,35 @@ export default new Vuex.Store({
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
-                ctx.commit('REMOVE_DEBT', id);
             } else {
                 ctx.commit('IS_SUCCEED', false);
             }
         },
         //danh sách con nợ
         async debtorList(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/mydebtorlist', { UserID: id }, {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/debtorlist', { UserID: id }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
             });
             ctx.commit('DEBTOR_LIST', response.data);
         },
+        async sendNotify(ctx, data) {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/notify', data, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+            }
+        },
         //danh sách chủ nợ
         async creditorList(ctx, id) {
-            const response = await axios.post('http://localhost:3000/customer/reminddebt/mycreditorlist', { UserID: id }, {
+            const response = await axios.post('http://localhost:3000/customer/reminddebt/creatorlist', { UserID: id }, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
