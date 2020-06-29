@@ -3,14 +3,16 @@
     <b-container>
       <div class="form">
         <b-form @submit="onSubmit">
+          <b-form-group>
+              <b-alert v-if="!isSucceed && isClick" variant="danger" show>{{ErrorMessage}}</b-alert>
+          </b-form-group>
+
           <b-form-group label="Số tài khoản:">
-            <b-form-input v-model="number" type="text" required>
+            <b-form-input v-model="number" type="number" required>
             </b-form-input>
           </b-form-group>
 
-          <b-button id="btn" type="submit" variant="primary"
-            >Xem</b-button
-          >
+          <b-button id="btn" type="submit" variant="primary">Xem</b-button>
         </b-form>
       </div>
     </b-container>
@@ -32,7 +34,8 @@ import { mapGetters } from 'vuex';
 export default {
     data() {
         return {
-            number:''
+            number:'',
+            isClick: false
         }
     },
     components:{
@@ -44,13 +47,23 @@ export default {
             this.$store.dispatch('takeTrans',this.number);
             this.$store.dispatch('sendTrans',this.number);
             this.$store.dispatch('debtTrans',this.number);
+
+            setTimeout(()=>{
+                this.isClick = true;
+            }, 3000);
+
+            setTimeout(()=>{
+                    this.isClick = false;
+            }, 6000);
         }
     },
      computed: {
         ...mapGetters([
             'TakeTrans',
             'SendTrans',
-            'DebtTrans'
+            'DebtTrans',
+            'isSucceed',
+            'ErrorMessage'
             ])
  },
   }

@@ -4,16 +4,18 @@
         <div class="form">
             <b-form>
                 <b-form-group>
-                        <b-alert v-if="isSucceed && isChange" variant="success" show>Đổi mật khẩu thành công</b-alert>
-                        <b-alert v-if="!isSucceed && isChange" variant="danger" show>Đổi mật khẩu thất bại</b-alert>
+                    <b-alert v-if="isSucceed && isChange" variant="success" show>Đổi mật khẩu thành công</b-alert>
+                    <b-alert v-if="!isSucceed && isChange" variant="danger" show>Đổi mật khẩu thất bại</b-alert>
+                    <b-alert v-if="!isSucceed && isChange" variant="danger" show>{{ErrorMessage}}</b-alert>
+                    <b-alert v-if="!isSucceed && isShow" variant="danger" show>{{ErrorMessage}}</b-alert>
                 </b-form-group>
-                
-                <div v-if="!isSend">
+
+                <div>
                     <b-form-group label="Tên đăng nhập:">
                         <b-form-input v-model="username" required placeholder="Username"></b-form-input>
                     </b-form-group>
 
-                    <b-form-group label="Nhập email nhận mã OTP:">
+                    <b-form-group label="Nhập email đã đăng ký để nhận mã OTP:">
                         <b-form-input v-model="email" required placeholder="Email"></b-form-input>
                     </b-form-group>
 
@@ -61,11 +63,12 @@ export default {
         confirmpw:"",
         isMatch: false,
         isSend: false,
-        isChange: false
+        isChange: false,
+        isShow: false,
     };
   },
   computed:{
-      ...mapGetters(['isSucceed'])
+      ...mapGetters(['isSucceed','ErrorMessage'])
   },
   methods: {
         onSendOTP(evt) {
@@ -75,9 +78,18 @@ export default {
                 UserEmail: this.email
             };
             this.$store.dispatch('sendOTPCodeMissPw', data);
+            
             setTimeout(()=>{
                 this.isSend = true;
-            }, 500);
+            }, 2000);
+         
+            setTimeout(()=>{
+                this.isShow = true;
+            }, 2000);
+
+            setTimeout(()=>{
+                this.isShow = false;
+            }, 5000);
         },
 
         onChangePw(evt) {

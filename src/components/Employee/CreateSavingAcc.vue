@@ -7,6 +7,7 @@
           <b-form-group>
               <b-alert v-if="isSucceed && isRegister" variant="success" show>Tạo tài khoản thành công</b-alert>
               <b-alert v-if="!isSucceed && isRegister" variant="danger" show>Tạo tài khoản thất bại</b-alert>
+              <b-alert v-if="!isSucceed && isRegister" variant="danger" show>{{ErrorMessage}}</b-alert>
           </b-form-group>
 
           <b-form-group label="Tên đăng nhập:">
@@ -39,7 +40,8 @@ export default {
     computed:{
       ...mapGetters([
         'isSucceed', 
-        'SavingNumber'
+        'SavingNumber',
+        'ErrorMessage'
         ])
     },
     methods:{

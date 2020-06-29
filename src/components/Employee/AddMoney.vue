@@ -7,11 +7,12 @@
 
           <b-form-group>
               <b-alert v-if="isSucceed && isAdd" variant="success" show>Nạp tiền thành công</b-alert>
-              <b-alert v-if="!isSucceed && isAdd" variant="danger" show>Nạp tiền thành công</b-alert>
+              <b-alert v-if="!isSucceed && isAdd" variant="danger" show>Nạp tiền thất bại</b-alert>
+              <b-alert v-if="!isSucceed && isAdd" variant="danger" show>{{ErrorMessage}}</b-alert>
           </b-form-group>
 
           <b-form-group label="Số tài khoản:">
-            <b-form-input v-model="number" type="text" required>
+            <b-form-input v-model="number" type="number" required>
             </b-form-input>
           </b-form-group>
 
@@ -49,7 +50,7 @@ export default {
         }
     },
     computed:{
-      ...mapGetters(['isSucceed'])
+      ...mapGetters(['isSucceed','ErrorMessage'])
     },
     methods:{
         onAddMoney(evt){

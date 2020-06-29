@@ -43,11 +43,12 @@
               Nhân viên
             </label>
           </div>
+          <br>
+          <div class="form-group">
           <vue-recaptcha @verify="onVerify" sitekey="6LdOD6gZAAAAADZSN2jO2r60n2n2LlQwHVmDv4mV" :loadRecaptchaScript="true"></vue-recaptcha>
-          <h6 class="checkempty mt-1" v-if="showerror">
-            Chưa check captcha!
-          </h6>
-          <hr />
+          </div>
+          <h6 class="checkempty mt-1" v-if="showerror">Chưa check captcha!</h6>
+          <hr/>
           <div class="d-flex justify-content-center">
             <button type="submit" class="btn btn-primary ">Đăng nhập</button>
           </div>
@@ -124,6 +125,7 @@ export default {
 
 .myform {
   margin-top: 50px;
+  width: 631px;
 }
 .checkempty {
   color: red;
