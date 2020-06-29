@@ -5,6 +5,7 @@
         <b-form-group>
             <b-alert v-if="isSucceed && isVerify" variant="success" show>Giao dịch thành công</b-alert>
             <b-alert v-if="!isSucceed && isVerify" variant="danger" show>Giao dịch thất bại</b-alert>
+            <b-alert v-if="!isSucceed && isVerify" :title="ErrorMessage" variant="danger" show></b-alert>
         </b-form-group>
 
         <div class="form-group" >
@@ -31,7 +32,7 @@
             <b-form-select v-model="type" :options="options"></b-form-select>
         </b-form-group>
 
-        <button class="btn btn-primary mt-2" @click="onSendOTPCode">Gửi</button>
+        <button type="button" class="btn btn-primary mt-2" @click="onSendOTPCode">Gửi</button>
     </form>
 
     <div v-if="isSend">
@@ -41,7 +42,7 @@
                 <label for="stk">Mã OTP:</label>
                 <input type="text" class="form-control" placeholder="Mã OTP" v-model="OTPCode"/>
             </div>
-            <button type="submit" @click="onVerify" class="btn btn-primary mt-2">Gửi</button>
+            <button type="button" @click="onVerify" class="btn btn-primary mt-2">Gửi</button>
         </form>
     </div>
 
@@ -77,7 +78,7 @@ export default {
         this.$store.dispatch('takerList',localStorage.getItem('userid'));
   },
   computed:{
-      ...mapGetters(['isSucceed', 'TakerList'])
+      ...mapGetters(['isSucceed', 'TakerList', 'ErrorMessage'])
   },
   methods:{
     onSendOTPCode(){

@@ -7,6 +7,7 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
     state: {
+        ErrorMessage: '',
         isSucceed: false,
         correctUnPw: true,
         accessToken: '',
@@ -33,6 +34,9 @@ export default new Vuex.Store({
         SavingNumber: '',
     },
     getters: {
+        ErrorMessage(state) {
+            return state.ErrorMessage;
+        },
         isSucceed(state) {
             return state.isSucceed
         },
@@ -238,6 +242,9 @@ export default new Vuex.Store({
         },
         SELECTED_ROW(state, payload) {
             state.SelectedRow = payload;
+        },
+        ERROR_MESSAGE(state, payload) {
+            state.ErrorMessage = payload;
         }
 
     },
@@ -296,6 +303,7 @@ export default new Vuex.Store({
                 ctx.commit('SPENDING_NUMBER', response.data.Number);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //tạo tk tiết kiệm
@@ -311,6 +319,7 @@ export default new Vuex.Store({
                 ctx.commit('SAVING_NUMBER', response.data.Number);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //nạp tiền vào tài khoản thanh toán
@@ -324,6 +333,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //nạp tiền vào tài khoản tiết kiệm
@@ -338,6 +348,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //giao dịch nhân tiền
@@ -696,6 +707,7 @@ export default new Vuex.Store({
                 ctx.commit('SEND_TRANS', response.data.transInfo);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //gửi mã otp
@@ -726,6 +738,7 @@ export default new Vuex.Store({
                 ctx.commit('SEND_TRANS', response.data.transInfo);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //gửi mã otp
@@ -756,6 +769,7 @@ export default new Vuex.Store({
                 ctx.commit('SEND_TRANS', response.data.transInfo);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //gửi mã otp
