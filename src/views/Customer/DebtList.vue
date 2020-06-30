@@ -26,7 +26,7 @@ import DebtList from "../../components/Customer/DebtList.vue";
 import CreList from "../../components/Customer/CreList.vue";
 import SelectZone from "../../components/Customer/SelectZone";
 import Footer from "../../components/Footer.vue";
-import mytoken from "../../public/myToken";
+import UserRefresh from "../../AutoRefreshToken/UserRefresh"
 import { mapGetters } from "vuex";
 
 export default {
@@ -38,7 +38,7 @@ export default {
     CreList
   },
   mounted() {
-    mytoken.RefreshMyToken(this.$router);
+    UserRefresh.RefreshMyToken(this.$router);
     this.$store.dispatch("debtorList", localStorage.getItem("userid"));
     this.$store.dispatch("creditorList", localStorage.getItem("userid"));   
   },

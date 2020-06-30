@@ -39,8 +39,10 @@
           <b-form-group label="Ngày sinh:">
               <b-form-datepicker v-model="form.dob" placeholder="Ngày sinh" class="mb-2"></b-form-datepicker>
           </b-form-group>
-    
-          <b-button type="submit" variant="primary">Đăng ký tài khoản</b-button>
+          <div class="d-flex justify-content-center">
+            <b-button type="submit" variant="primary">Đăng ký tài khoản</b-button>
+          </div>
+          
         </b-form>
       </div>
     </b-container>
@@ -109,7 +111,7 @@ export default {
 <style scoped>
 .form {
   margin: 50px auto;
-  width: 500px;
+  width: 400px;
   padding: 30px;
 }
 .register {

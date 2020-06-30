@@ -18,14 +18,14 @@ import Header from "../../components/Header";
 import InterTransaction from "../../components/Customer/InterTransaction.vue";
 import SelectZone from "../../components/Customer/SelectZone"
 import Footer from '../../components/Footer.vue'
-import mytoken from "../../public/myToken"
+import UserRefresh from "../../AutoRefreshToken/UserRefresh"
 
 export default {
     components: {
         Header, InterTransaction, SelectZone,Footer
     },
     mounted() {
-      mytoken.RefreshMyToken(this.$router);
+      UserRefresh.RefreshMyToken(this.$router);
     }
 }
 </script>

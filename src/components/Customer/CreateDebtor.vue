@@ -3,8 +3,9 @@
       <h3 class="text-center mt-2">Tạo nhắc nợ</h3>
       <form class="form" @submit="onAdd">
           <b-form-group>
-              <b-alert v-if="isSucceed && isAdd" variant="success" show>Thêm thành công</b-alert>
-              <b-alert v-if="!isSucceed && isAdd" variant="danger" show>Thêm thất bại</b-alert>
+              <b-alert v-if="isSucceed && isAdd" variant="success" show>Gửi nhắc nợ thành công</b-alert>
+              <b-alert v-if="!isSucceed && isAdd" variant="danger" show>Gửi nhắc nợ thất bại</b-alert>
+              <b-alert v-if="!isSucceed && isAdd" variant="danger" show>{{ErrorMessage}}</b-alert>
           </b-form-group>
 
           <div class="form-group">
@@ -21,7 +22,10 @@
               <label for="content">Lời Nhắc:</label>
               <b-form-textarea v-model="content" placeholder="Lời nhắc..." rows="3" max-rows="6"></b-form-textarea>
           </div>
-          <button type="submit" class="btn btn-primary mt-2">Gửi</button>
+          <div class="d-flex justify-content-center">
+              <button type="submit" class="btn btn-primary mt-2">Gửi nhắc nợ</button>
+          </div>
+          
       </form>
     </div>
 </template>
@@ -39,7 +43,7 @@ export default {
     }
   },
   computed:{
-      ...mapGetters(['isSucceed'])
+      ...mapGetters(['isSucceed','ErrorMessage'])
   },
   methods:{
     onAdd(evt){
@@ -52,9 +56,6 @@ export default {
       };
       
       this.$store.dispatch('addDebtor', info);
-      this.number = '';
-      this.money = '';
-      this.content = '';
 
       setTimeout(()=>{
         this.isAdd = true;
@@ -68,10 +69,9 @@ export default {
 };
 </script>
 
-<style>
+<style >
 .form {
-    margin-left: 250px;
-    margin-top: 50px;
+    margin: 50px auto;
     width: 400px;
 }
 </style>

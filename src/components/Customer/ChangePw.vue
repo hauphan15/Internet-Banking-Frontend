@@ -7,6 +7,7 @@
             <b-form-group>
                 <b-alert v-if="isSucceed && isChange" variant="success" show>Đổi mật khẩu thành công</b-alert>
                 <b-alert v-if="!isSucceed && isChange" variant="danger" show>Đổi mật khẩu thất bại</b-alert>
+                <b-alert v-if="!isSucceed && isChange" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
 
             <b-form-group label="Mật khẩu cũ:">
@@ -23,10 +24,10 @@
                 <small v-else>Mật khẩu khớp</small>
             </b-form-group>
 
-            <b-form-group>
-                <b-button id="btn" type="submit" variant="primary">Đổi mật khẩu</b-button>
-            </b-form-group>
-
+            <div class="d-flex justify-content-center">
+                <b-button type="submit" variant="primary">Đổi mật khẩu</b-button>
+            </div>
+               
             </b-form>
         </div>
     </b-container>
@@ -47,7 +48,7 @@ export default {
     };
   },
   computed:{
-      ...mapGetters(['isSucceed'])
+      ...mapGetters(['isSucceed','ErrorMessage'])
   },
   methods: {
         onChangePw(evt) {
@@ -69,7 +70,7 @@ export default {
 
             setTimeout(()=>{
                 this.isChange = false;
-            }, 5000);
+            }, 7000);
         },
 
         notifyChange(){

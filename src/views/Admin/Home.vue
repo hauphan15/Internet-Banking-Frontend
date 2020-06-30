@@ -29,6 +29,7 @@ import Footer from '../../components/Footer.vue'
 import CreateEmployeeAcc from '../../components/Admin/CreateEmployeeAcc.vue'
 import MangeEmployee from '../../components/Admin/ManageEmployee.vue'
 import PartnerTrans from '../../components/Admin/PartnerTrans.vue'
+import AdminRefresh from '../../AutoRefreshToken/AdminRefresh'
 
 export default {
   name: 'Home',
@@ -38,6 +39,9 @@ export default {
     MangeEmployee,
     PartnerTrans,
     Footer
+  },
+  mounted() {
+      AdminRefresh.RefreshMyToken(this.$router);
   }
 }
 </script>

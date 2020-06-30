@@ -24,8 +24,10 @@
           <b-form-group>
             <b-form-select v-model="account" :options="accounts"></b-form-select>
           </b-form-group>
-
-          <b-button id="btn" type="submit" variant="primary">Nạp tiền</b-button>
+          <div class="d-flex justify-content-center">
+              <b-button type="submit" variant="primary">Nạp tiền</b-button>  
+          </div>
+          
         </b-form>
       </div>
     </b-container>
@@ -83,7 +85,7 @@ export default {
 <style scoped>
 .form {
   margin: 50px auto;
-  width: 500px;
+  width: 400px;
   padding: 30px;
 }
 .add-money {

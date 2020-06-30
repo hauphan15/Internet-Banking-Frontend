@@ -18,14 +18,14 @@ import Header from "../../components/Header"
 import CreateDebtor from "../../components/Customer/CreateDebtor.vue"
 import SelectZone from "../../components/Customer/SelectZone"
 import Footer from '../../components/Footer.vue'
-import mytoken from "../../public/myToken"
+import UserRefresh from "../../AutoRefreshToken/UserRefresh"
 
 export default {
     components: {
         Header, CreateDebtor, SelectZone, Footer
     },
     mounted() {
-      mytoken.RefreshMyToken(this.$router);
+      UserRefresh.RefreshMyToken(this.$router);
     }
 }
 </script>

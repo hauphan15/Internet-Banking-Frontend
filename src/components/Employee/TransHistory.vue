@@ -11,8 +11,9 @@
             <b-form-input v-model="number" type="number" required>
             </b-form-input>
           </b-form-group>
-
-          <b-button id="btn" type="submit" variant="primary">Xem</b-button>
+          <div class="d-flex justify-content-center">
+              <b-button type="submit" variant="primary">Xem</b-button>
+          </div>
         </b-form>
       </div>
     </b-container>
@@ -72,7 +73,7 @@ export default {
 <style scoped>
 .form {
   margin: 50px auto;
-  width: 500px;
+  width: 400px;
   padding: 30px;
 }
 </style>

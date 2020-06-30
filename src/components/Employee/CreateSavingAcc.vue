@@ -14,10 +14,9 @@
               <b-form-input v-model="username" type="text" required></b-form-input>
           </b-form-group>
 
-          <b-form-group >
-                <b-button id="btn" type="submit" variant="primary">Tạo tài khoản</b-button>
-          </b-form-group>
-
+          <div class="d-flex justify-content-center">
+                <b-button  type="submit" variant="primary">Tạo tài khoản</b-button>
+          </div>
           <b-form-group v-if="SavingNumber!==''"  label="Số tài khoản tiết kiệm:">
               <b-form-input :value="SavingNumber" readonly></b-form-input>
           </b-form-group>
@@ -64,7 +63,7 @@ export default {
 <style scoped>
 .form {
   margin: 50px auto;
-  width: 500px;
+  width: 400px;
   padding: 30px;
 }
 .add-money {

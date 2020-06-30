@@ -19,7 +19,7 @@
 import Header from "../../components/Header"
 import Footer from '../../components/Footer.vue'
 import SelectZone from "../../components/Customer/SelectZone"
-import mytoken from "../../public/myToken"
+import UserRefresh from "../../AutoRefreshToken/UserRefresh"
 
 export default {
   name: "dashboard",
@@ -29,7 +29,7 @@ export default {
     Footer
   },
   mounted() {
-      mytoken.RefreshMyToken(this.$router);
+      UserRefresh.RefreshMyToken(this.$router);
     }
 };
 </script>

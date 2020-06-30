@@ -57,6 +57,18 @@
         </form>
     </div>
 
+    <div v-if="!showSuggest" class="form">
+        <b-alert v-if="isSucceed && saveInfo" variant="success" show>Lưu thông tin thành công</b-alert>
+        <b-alert v-if="!isSucceed && saveInfo" variant="danger" show>Lưu thông tin thất bại</b-alert>
+        <b-alert v-if="!isSucceed && saveInfo" variant="danger" show>{{ErrorMessage}}</b-alert>
+    </div>
+    <div v-if="showSuggest" class="form d-flex justify-content-center">
+        <b-form-group label="Bạn có muốn lưu thông tin người nhận">
+            <b-button style="width:120px" type="button" @click="onAgree" variant="outline-primary">Lưu</b-button>
+            <b-button style="width:120px; margin-left:10px;" @click="onIgnore" type="button" variant="outline-danger">Không</b-button>
+        </b-form-group>
+    </div>
+
   </div>
 </template>
 
@@ -78,7 +90,9 @@ export default {
       isSend: false,
       OTPCode:'',
       isVerify: false,
-      selectMode: 'single'
+      selectMode: 'single',
+      showSuggest: false,
+      saveInfo: false,
     }
   },
   mounted() {
@@ -89,7 +103,11 @@ export default {
   },
   methods:{
     onSendOTPCode(){
-      this.$store.dispatch('sendOTPCode', localStorage.getItem('number'));
+      const data = {
+        Number: localStorage.getItem('number')
+      };
+
+      this.$store.dispatch('sendOTPCode', data);
       this.isSend = true;
     },
 
@@ -117,11 +135,36 @@ export default {
       setTimeout(()=>{
           this.isVerify = false;
       }, 6000);
+
+      this.showSuggest = true;
     },
 
     onRowSelected(items){
       this.number = items[0].Number;
-    }
+    },
+
+    onIgnore(){
+        this.showSuggest = false;
+    },
+
+    onAgree(){
+        const info = {
+            UserID: localStorage.getItem('userid'),
+            Number: this.number,
+            Name: ''
+        };
+
+        this.$store.dispatch('addTaker', info);
+
+        setTimeout(()=>{
+            this.showSuggest = false;
+            this.saveInfo = true;
+        }, 2000);
+
+        setTimeout(()=>{
+            this.saveInfo = false;
+        }, 5000);
+    },
   }
 };
 </script>

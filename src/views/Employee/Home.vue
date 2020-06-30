@@ -36,6 +36,7 @@ import CreateCustomerAcc from '../../components/Employee/CreateCustomerAcc.vue'
 import AddMoney from '../../components/Employee/AddMoney.vue'
 import TransHistory from '../../components/Employee/TransHistory.vue'
 import CreateSavingAcc from '../../components/Employee/CreateSavingAcc.vue'
+import EmployeeRefresh from '../../AutoRefreshToken/EmployeeRefresh'
 
 export default {
   name: 'Home',
@@ -46,6 +47,9 @@ export default {
     AddMoney,
     TransHistory,
     Footer
+  },
+  mounted() {
+      EmployeeRefresh.RefreshMyToken(this.$router);
   }
 }
 </script>

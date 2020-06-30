@@ -36,9 +36,9 @@
             <b-form-input v-model="form.email" required> </b-form-input>
           </b-form-group>
 
-          <b-form-group>
-          <b-button type="submit" variant="primary">Đăng ký tài khoản</b-button>
-          </b-form-group>
+          <div class="d-flex justify-content-center">
+              <b-button type="submit" variant="primary">Đăng ký</b-button>
+          </div>
 
           <b-form-group v-if="SpendingNumber!==''"  label="Số tài khoản thanh toán:">
             <b-form-input :value="SpendingNumber" readonly></b-form-input>
@@ -112,7 +112,7 @@ export default {
 <style scoped>
 .form {
   margin: 50px auto;
-  width: 500px;
+  width: 400px;
   padding: 30px;
 }
 .register {

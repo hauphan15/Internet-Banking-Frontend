@@ -361,7 +361,7 @@ export default new Vuex.Store({
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
-                ctx.commit('TAKE_TRANS', response.data);
+                ctx.commit('TAKE_TRANS', response.data.history);
             } else {
                 ctx.commit('IS_SUCCEED', false);
                 ctx.commit('ERROR_MESSAGE', response.data.message);
@@ -377,7 +377,7 @@ export default new Vuex.Store({
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
-                ctx.commit('SEND_TRANS', response.data);
+                ctx.commit('SEND_TRANS', response.data.history);
             } else {
                 ctx.commit('IS_SUCCEED', false);
                 ctx.commit('ERROR_MESSAGE', response.data.message);
@@ -392,7 +392,7 @@ export default new Vuex.Store({
             });
 
             if (response.data.success === true) {
-                ctx.commit('DEBT_TRANS', response.data);
+                ctx.commit('DEBT_TRANS', response.data.history);
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
@@ -586,6 +586,7 @@ export default new Vuex.Store({
                 ctx.commit('REMOVE_TAKER', id);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //chỉnh sửa thông tin người nhận
@@ -601,6 +602,7 @@ export default new Vuex.Store({
                 ctx.commit('UPDATE_TAKER', info);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //thêm con nợ
@@ -615,6 +617,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //xóa nhắc nợ
@@ -707,8 +710,8 @@ export default new Vuex.Store({
             }
         },
         //gửi mã otp
-        async sendOTPCode(ctx, number) {
-            const response = await axios.post('http://localhost:3000/customer/trans/otp', { Number: number }, {
+        async sendOTPCode(ctx, data) {
+            const response = await axios.post('http://localhost:3000/customer/trans/otp', data, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
@@ -718,6 +721,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //chuyển tiền liên ngân hàng - PGP
@@ -738,8 +742,8 @@ export default new Vuex.Store({
             }
         },
         //gửi mã otp
-        async sendOTPCodePGP(ctx, number) {
-            const response = await axios.post('http://localhost:3000/partner-pgp/otp', { Number: number }, {
+        async sendOTPCodePGP(ctx, data) {
+            const response = await axios.post('http://localhost:3000/partner-pgp/otp', data, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
@@ -749,6 +753,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //chuyển tiền liên ngân hàng - RSA
@@ -769,8 +774,8 @@ export default new Vuex.Store({
             }
         },
         //gửi mã otp
-        async sendOTPCodeRSA(ctx, number) {
-            const response = await axios.post('http://localhost:3000/partner-rsa/otp', { Number: number }, {
+        async sendOTPCodeRSA(ctx, data) {
+            const response = await axios.post('http://localhost:3000/partner-rsa/otp', data, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
@@ -780,6 +785,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //đổi mật khẩu - khi đã đăng nhập
@@ -794,6 +800,7 @@ export default new Vuex.Store({
                 ctx.commit('IS_SUCCEED', true);
             } else {
                 ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
         //đổi mật khẩu - khi đã quên mật khẩu
