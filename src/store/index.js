@@ -163,6 +163,17 @@ export default new Vuex.Store({
                 }
             }
         },
+        UPDATE_EMPLOYEE(state, payload) {
+            for (let index = 0; index < state.EmployeeList.length; index++) {
+                if (+state.EmployeeList[index].ID === +payload.ID) {
+                    state.EmployeeList[index].FullName = payload.FullName;
+                    state.EmployeeList[index].Email = payload.Email;
+                    state.EmployeeList[index].Phone = payload.Phone;
+                    state.EmployeeList[index].DoB = payload.DoB;
+                    return;
+                }
+            }
+        },
         PARTNER_TRANS(state, payload) {
             state.PartnerTrans = payload;
         },
@@ -454,6 +465,7 @@ export default new Vuex.Store({
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
+                ctx.commit('UPDATE_EMPLOYEE', info);
             } else {
                 ctx.commit('IS_SUCCEED', false);
                 ctx.commit('ERROR_MESSAGE', response.data.message);

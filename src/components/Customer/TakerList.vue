@@ -9,7 +9,7 @@
                 <b-alert v-if="!isSucceed && isAdd" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
 
-            <b-button style="width: 300px" v-b-toggle.collapse-1 variant="primary">Thêm người nhận</b-button>
+            <b-button style="width: 300px" v-b-toggle.collapse-1 variant="outline-primary">Thêm người nhận</b-button>
             <b-collapse id="collapse-1" class="mt-2">
                 <b-form-group label="Số tài khoản:">
                 <b-form-input v-model="numberAdd" type="number" required placeholder="số tài khoản">
@@ -23,7 +23,7 @@
                 <b-form-group label="Chọn ngân hàng:">
                     <b-form-select v-model="bank" :options="banks"></b-form-select>
                 </b-form-group>
-                <b-button id="btn1" variant="outline-primary" @click="onAdd">Thêm người nhận</b-button>
+                <b-button id="btn1" variant="primary" @click="onAdd">Thêm</b-button>
             </b-collapse>
         </div>
         <br>
@@ -34,12 +34,12 @@
                 <b-alert v-if="!isSucceed && isDel" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
 
-            <b-button style="width: 300px" v-b-toggle.collapse-2 variant="danger">Xóa người nhận</b-button>
+            <b-button style="width: 300px" v-b-toggle.collapse-2 variant="outline-danger">Xóa</b-button>
             <b-collapse id="collapse-2" class="mt-2">
                 <b-form-group label="ID:">
                     <b-form-input v-model="IDDel" type="number" placeholder="ID" readonly></b-form-input>
                 </b-form-group>    
-                <b-button id="btn2" variant="outline-danger" @click="onDelete">Xóa người nhận</b-button>
+                <b-button id="btn2" variant="danger" @click="onDelete">Xóa người nhận</b-button>
             </b-collapse>
         </div>
         <br>
@@ -50,7 +50,7 @@
                 <b-alert v-if="!isSucceed && isUpdate" variant="danger" show>{{ErrorMessage}}</b-alert>
             </b-form-group>
 
-            <b-button style="width: 300px" v-b-toggle.collapse-3 variant="success">Cập nhật thông tin</b-button>
+            <b-button style="width: 300px" v-b-toggle.collapse-3 variant="outline-success">Cập nhật thông tin</b-button>
             <b-collapse id="collapse-3" class="mt-2">
                 <b-form-group label="ID:">
                     <b-form-input v-model="IDUpdate" type="number" placeholder="ID" readonly></b-form-input>
@@ -59,7 +59,7 @@
                 <b-form-group label="Tên gợi nhớ:">
                     <b-form-input v-model="nameUpdate" placeholder="tên gợi nhớ"> </b-form-input>
                 </b-form-group>
-                <b-button id="btn3" variant="outline-success" @click="onUpdate">Cập nhật thông tin</b-button>
+                <b-button id="btn3" variant="success" @click="onUpdate">Cập nhật</b-button>
             </b-collapse>
         </div>
     </b-form>
@@ -186,7 +186,7 @@ export default {
     width: 300px;
 }
 .form{
-    margin: 50px auto;
+    margin: auto;
     width: 300px;
 }
 </style>

@@ -10,30 +10,30 @@
           </b-form-group>
 
           <b-form-group label="Tên đăng nhập:">
-            <b-form-input v-model="form.username" type="text" required>
+            <b-form-input v-model="form.username" type="text" required placeholder="tên đăng nhập">
             </b-form-input>
           </b-form-group>
 
           <b-form-group label="Mật khẩu:">
-            <b-form-input v-model="form.password" required type="password"> </b-form-input>
+            <b-form-input v-model="form.password" required type="password" placeholder="mật khẩu"> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Xác nhận mật khẩu:">
-            <b-form-input required  v-model="form.confirmpw" @input="notifyChange" type="password"> </b-form-input>
+            <b-form-input required  v-model="form.confirmpw" @input="notifyChange" type="password" placeholder="xác nhận lại"> </b-form-input>
             <small v-if="!isMatch">Mật khẩu không khớp</small>
             <small v-else>Mật khẩu khớp</small>
           </b-form-group>
 
           <b-form-group label="Họ tên">
-            <b-form-input v-model="form.fullname" required> </b-form-input>
+            <b-form-input v-model="form.fullname" required placeholder="họ tên"> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Số điện thoại">
-              <b-form-input v-model="form.phone" type="number" required> </b-form-input>
+              <b-form-input v-model="form.phone" type="number" required placeholder="số điện thoại"> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Email:">
-              <b-form-input v-model="form.email" required> </b-form-input>
+              <b-form-input v-model="form.email" required placeholder="email"> </b-form-input>
           </b-form-group>
 
           <b-form-group label="Ngày sinh:">
