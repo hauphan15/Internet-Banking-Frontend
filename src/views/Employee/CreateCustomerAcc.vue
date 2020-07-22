@@ -3,9 +3,11 @@
     <Header />
     <div class="dashboard row m-4 p-3">
       <div class="col-sm-3">
-        <AdminMenu/>
+        <employee-menu></employee-menu>
       </div>
+
       <div class="maincontent col-sm-9 shadow">
+          <create-customer-acc></create-customer-acc>
       </div>
     </div>
     <Footer/>
@@ -16,18 +18,20 @@
 
 import Header from '../../components/Header.vue'
 import Footer from '../../components/Footer.vue'
-import AdminMenu from "../../components/Admin/AdminMenu.vue"
-import AdminRefresh from '../../AutoRefreshToken/AdminRefresh'
+import EmployeeMenu from "../../components/Employee/EmployeeMenu.vue"
+import CreateCustomerAcc from '../../components/Employee/CreateCustomerAcc.vue'
+import EmployeeRefresh from '../../AutoRefreshToken/EmployeeRefresh'
 
 export default {
   name: 'Home',
   components: {
     Header,
-    AdminMenu,
+    EmployeeMenu,
+    CreateCustomerAcc,
     Footer
   },
   mounted() {
-      AdminRefresh.RefreshMyToken(this.$router);
+      EmployeeRefresh.RefreshMyToken(this.$router);
   }
 }
 </script>

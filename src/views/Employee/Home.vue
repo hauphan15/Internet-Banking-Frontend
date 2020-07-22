@@ -1,30 +1,15 @@
 <template>
-  <div class="home">
-    <Header/>
-    <div>
-  
-        <b-card no-body>
-            <b-tabs card>
-                <b-tab title="Tạo tài khoản khách hàng" active>
-                    <create-customer-acc></create-customer-acc>
-                </b-tab>
+  <div >
+    <Header />
+    <div class="dashboard row m-4 p-3">
+      <div class="col-sm-3">
+        <employee-menu></employee-menu>
+      </div>
 
-                <b-tab title="Tạo tài khoản tiết kiệm">
-                    <create-saving-acc></create-saving-acc>
-                </b-tab>
-
-                <b-tab title="Nạp tiền vào tài khoản khách hàng">
-                    <add-money></add-money>
-                </b-tab>
-
-                <b-tab title="Xem lịch sử giao dịch khách hàng">
-                    <trans-history></trans-history>
-                </b-tab>
-            </b-tabs>
-        </b-card>
-        
+      <div class="maincontent col-sm-9 shadow">
+      </div>
     </div>
-    <Footer class="footer"/>
+    <Footer/>
   </div>
 </template>
 
@@ -32,20 +17,14 @@
 
 import Header from '../../components/Header.vue'
 import Footer from '../../components/Footer.vue'
-import CreateCustomerAcc from '../../components/Employee/CreateCustomerAcc.vue'
-import AddMoney from '../../components/Employee/AddMoney.vue'
-import TransHistory from '../../components/Employee/TransHistory.vue'
-import CreateSavingAcc from '../../components/Employee/CreateSavingAcc.vue'
+import EmployeeMenu from "../../components/Employee/EmployeeMenu.vue"
 import EmployeeRefresh from '../../AutoRefreshToken/EmployeeRefresh'
 
 export default {
   name: 'Home',
   components: {
     Header,
-    CreateCustomerAcc,
-    CreateSavingAcc,
-    AddMoney,
-    TransHistory,
+    EmployeeMenu,
     Footer
   },
   mounted() {
@@ -54,3 +33,8 @@ export default {
 }
 </script>
 
+<style>
+.maincontent {
+  background: white;
+}
+</style>

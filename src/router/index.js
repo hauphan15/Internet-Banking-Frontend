@@ -17,10 +17,31 @@ const routes = [{
     },
     {
         path: '/admin',
-        name: 'admin',
+        name: 'home',
         meta: { requiresAuth: true },
         component: () =>
-            import ( /* webpackChunkName: "admin" */ '../views/Admin/Home.vue'),
+            import ( /* webpackChunkName: "home" */ '../views/Admin/Home.vue'),
+    },
+    {
+        path: '/admin/createEmployeeAcc',
+        name: 'createEmployeeAcc',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "createEmployeeAcc" */ '../views/Admin/CreateEmployeeAcc.vue'),
+    },
+    {
+        path: '/admin/manageEmployee',
+        name: 'manageEmployee',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "manageEmployee" */ '../views/Admin/ManageEmployee.vue'),
+    },
+    {
+        path: '/admin/partnerTrans',
+        name: 'partnerTrans',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "partnerTrans" */ '../views/Admin/PartnerTrans.vue'),
     },
     {
         path: '/employee',
@@ -28,6 +49,34 @@ const routes = [{
         meta: { requiresAuth: true },
         component: () =>
             import ( /* webpackChunkName: "employee" */ '../views/Employee/Home.vue'),
+    },
+    {
+        path: '/employee/createCustomerAcc',
+        name: 'createCustomerAcc',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "createCustomerAcc" */ '../views/Employee/CreateCustomerAcc.vue'),
+    },
+    {
+        path: '/employee/addMoney',
+        name: 'addMoney',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "addMoney" */ '../views/Employee/AddMoney.vue'),
+    },
+    {
+        path: '/employee/createSavingAcc',
+        name: 'createSavingAcc',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "createSavingAcc" */ '../views/Employee/CreateSavingAcc.vue'),
+    },
+    {
+        path: '/employee/transHistory',
+        name: 'transHistory',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "transHistory" */ '../views/Employee/TransHistory.vue')
     },
     {
         path: '/customer',

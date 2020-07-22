@@ -6,6 +6,7 @@
         <AdminMenu/>
       </div>
       <div class="maincontent col-sm-9 shadow">
+          <manage-employee></manage-employee>
       </div>
     </div>
     <Footer/>
@@ -17,6 +18,7 @@
 import Header from '../../components/Header.vue'
 import Footer from '../../components/Footer.vue'
 import AdminMenu from "../../components/Admin/AdminMenu.vue"
+import ManageEmployee from '../../components/Admin/ManageEmployee.vue'
 import AdminRefresh from '../../AutoRefreshToken/AdminRefresh'
 
 export default {
@@ -24,6 +26,7 @@ export default {
   components: {
     Header,
     AdminMenu,
+    ManageEmployee,
     Footer
   },
   mounted() {
