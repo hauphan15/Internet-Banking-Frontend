@@ -571,7 +571,7 @@ export default new Vuex.Store({
         },
         //thêm người nhận PGP Bank
         async addTakerPGPBank(ctx, info) {
-            const response = await axios.post('http://localhost:3000/partner-rsa/get-info', info, {
+            const response = await axios.post('http://localhost:3000/partner-pgp/get-info', info, {
                 headers: {
                     'x-access-token': localStorage.getItem('access_token')
                 }
