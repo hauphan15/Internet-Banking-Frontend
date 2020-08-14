@@ -32,8 +32,12 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .maincontent {
   background: white;
+}
+
+.col-sm-3{
+  height: 400px;
 }
 </style>

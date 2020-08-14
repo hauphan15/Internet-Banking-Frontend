@@ -38,5 +38,6 @@ export default {
 <style>
 .maincontent {
   background: white;
+  min-height: 300px;
 }
 </style>
