@@ -847,6 +847,20 @@ export default new Vuex.Store({
                 ctx.commit('ERROR_MESSAGE', response.data.message);
             }
         },
+
+        //xóa tài khoản
+        async removeAccount(ctx, data) {
+            const response = await axios.post('http://localhost:3000/customer/removeacc', data);
+
+            if (response.data.success === true) {
+                ctx.commit('IS_SUCCEED', true);
+                ctx.commit('ERROR_MESSAGE', '');
+            } else {
+                ctx.commit('IS_SUCCEED', false);
+                ctx.commit('ERROR_MESSAGE', response.data.message);
+            }
+        },
+
         //USER-TOKEN
         async refreshTokenCustomer(ctx, data) {
             const response = await axios.post('http://localhost:3000/login/user-refresh', data);

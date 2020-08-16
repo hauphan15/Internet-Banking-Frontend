@@ -37,4 +37,8 @@ export default {
 .maincontent {
   background: white;
 }
+
+.col-sm-3{
+  height: 400px;
+}
 </style>

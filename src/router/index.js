@@ -142,6 +142,13 @@ const routes = [{
             import ( /* webpackChunkName: "changepw" */ '../views/Customer/ChangePw.vue')
     },
     {
+        path: '/customer/remove-account',
+        name: 'remove',
+        meta: { requiresAuth: true },
+        component: () =>
+            import ( /* webpackChunkName: "remove" */ '../views/Customer/RemoveAcc.vue')
+    },
+    {
         path: '/misspw',
         name: 'misspw',
         component: () =>

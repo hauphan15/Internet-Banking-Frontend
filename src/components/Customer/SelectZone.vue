@@ -35,6 +35,9 @@
         <router-link class="nav-link" to='/customer/changepw'>Đổi mật khẩu</router-link>
       </li>
 
+      <li class="nav-item">
+        <router-link class="nav-link" to='/customer/remove-account'>Xóa tài khoản</router-link>
+      </li>
       <br />
     </ul>
   </div>
