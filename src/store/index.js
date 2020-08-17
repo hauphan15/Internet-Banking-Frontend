@@ -116,6 +116,9 @@ export default new Vuex.Store({
             state.fullName = '';
             state.UserID = '';
             state.Number = '';
+            state.takeTrans = [];
+            state.SendTrans = [];
+            state.DebtTrans = [];
             state.correctUnPw = true;
         },
 

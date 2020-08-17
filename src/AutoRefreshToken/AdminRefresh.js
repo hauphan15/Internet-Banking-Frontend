@@ -8,7 +8,7 @@ const RefreshToken = async function(callback) {
     };
     axios
         .post("http://localhost:3000/login/admin-refresh", data)
-        .then((response) => { 
+        .then((response) => {
             callback(response.data);
         })
         .catch(function(error) {
@@ -23,7 +23,7 @@ const CheckToken = async function(callback) {
         },
     };
     axios
-        .get("http://localhost:3000", config)
+        .get("http://localhost:3000/admin/employee-list", config)
         .then((response) => {
             callback(response.data);
         })
