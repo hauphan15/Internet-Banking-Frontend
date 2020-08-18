@@ -2,7 +2,7 @@
     <div>
         <br>
         <br>
-        <h6>Tất cả giao dịch với ngân hàng đối tác</h6>
+        <h6>Tất cả giao dịch trong tháng với ngân hàng đối tác</h6>
         <Table :items="PartnerTrans" ></Table>
 
         <br>

@@ -23,7 +23,7 @@ const CheckToken = async function(callback) {
         },
     };
     axios
-        .get("http://localhost:3000/admin/employee-list", config)
+        .get("http://localhost:3000/admin", config)
         .then((response) => {
             callback(response.data);
         })
