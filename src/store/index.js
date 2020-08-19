@@ -714,7 +714,8 @@ export default new Vuex.Store({
         async sendLocal(ctx, data) {
             const response = await axios.post('http://localhost:3000/customer/transaction', data.transaction, {
                 headers: {
-                    'x-otp-code': data.otpCode
+                    'x-otp-code': data.otpCode,
+                    'x-access-token': localStorage.getItem('access_token')
                 }
             });
 
@@ -855,7 +856,11 @@ export default new Vuex.Store({
 
         //xóa tài khoản
         async removeAccount(ctx, data) {
-            const response = await axios.post('http://localhost:3000/customer/removeacc', data);
+            const response = await axios.post('http://localhost:3000/customer/removeacc', data, {
+                headers: {
+                    'x-access-token': localStorage.getItem('access_token')
+                }
+            });
 
             if (response.data.success === true) {
                 ctx.commit('IS_SUCCEED', true);
