@@ -116,9 +116,9 @@ export default new Vuex.Store({
             state.fullName = '';
             state.UserID = '';
             state.Number = '';
-            state.takeTrans = [];
-            state.SendTrans = [];
-            state.DebtTrans = [];
+            state.takeTrans = null;
+            state.SendTrans = null;
+            state.DebtTrans = null;
             state.correctUnPw = true;
         },
 
@@ -284,6 +284,8 @@ export default new Vuex.Store({
                 localStorage.setItem('userid', response.data.user.UserID);
                 if (loginInfo.role === 'customer') {
                     localStorage.setItem('number', response.data.user.Number);
+                } else if (loginInfo.role === 'employee' || loginInfo.role === 'admin') {
+                    localStorage.setItem('userid', response.data.user.ID);
                 }
                 ctx.commit('LOGIN');
             } else if (response.data.authenticated === false) {
